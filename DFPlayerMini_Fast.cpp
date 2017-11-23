@@ -9,7 +9,7 @@ void DFPlayerMini_Fast::begin(Stream &stream)
 }
 
 
-void DFPlayerMini_Fast::findChecksum(uint8_t commandValue, uint8_t paramMSB, uint8_t paramLSB, uint8_t& checksumMSB, uint8_t& checksumLSB)
+void DFPlayerMini_Fast::findChecksum()
 {
   uint16_t checksum = (~(VER + LEN + commandValue + FEEDBACK + paramMSB + paramLSB)) + 1;
 
@@ -20,46 +20,85 @@ void DFPlayerMini_Fast::findChecksum(uint8_t commandValue, uint8_t paramMSB, uin
 }
 
 
-void DFPlayerMini_Fast::volume(uint8_t _sending[], uint8_t volume, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB)
+void DFPlayerMini_Fast::volume(uint8_t volume)
 {
   commandValue = VOLUME_COMMAND;
   paramMSB = 0;
   paramLSB = volume;
   
-  findChecksum(commandValue, paramMSB, paramLSB, checksumMSB, checksumLSB);
-  sendData(_sending, commandValue, paramMSB, paramLSB, checksumMSB, checksumLSB);
+  findChecksum();
+  sendData();
   
   return;
 }
 
 
-void DFPlayerMini_Fast::loop(uint8_t _sending[], uint8_t fileNum, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB)
+void DFPlayerMini_Fast::loop(uint8_t fileNum)
 {
   commandValue = LOOP_COMMAND;
   paramMSB = 0;
   paramLSB = fileNum;
   
-  findChecksum(commandValue, paramMSB, paramLSB, checksumMSB, checksumLSB);
-  sendData(_sending, commandValue, paramMSB, paramLSB, checksumMSB, checksumLSB);
+  findChecksum();
+  sendData();
   
   return;
 }
 
 
-void DFPlayerMini_Fast::play(uint8_t _sending[], uint8_t fileNum, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB)
+void DFPlayerMini_Fast::play(uint8_t fileNum)
 {
   commandValue = PLAY_COMMAND;
   paramMSB = 0;
   paramLSB = fileNum;
   
-  findChecksum(commandValue, paramMSB, paramLSB, checksumMSB, checksumLSB);
-  sendData(_sending, commandValue, paramMSB, paramLSB, checksumMSB, checksumLSB);
+  findChecksum();
+  sendData();
   
   return;
 }
 
 
-void DFPlayerMini_Fast::sendData(uint8_t _sending[], uint8_t commandValue, uint8_t paramMSB, uint8_t paramLSB, uint8_t checksumMSB, uint8_t checksumLSB)
+void DFPlayerMini_Fast::EQSelect(uint8_t setting)
+{
+  commandValue = EQ_COMMAND;
+  paramMSB = 0;
+  paramLSB = setting;
+  
+  findChecksum();
+  sendData();
+  
+  return;
+}
+  
+
+void DFPlayerMini_Fast::pause()
+{
+  commandValue = PAUSE_COMMAND;
+  paramMSB = 0;
+  paramLSB = 0;
+  
+  findChecksum();
+  sendData();
+  
+  return;
+}
+  
+
+void DFPlayerMini_Fast::resume()
+{
+  commandValue = RESUME_COMMAND;
+  paramMSB = 0;
+  paramLSB = 0;
+  
+  findChecksum();
+  sendData();
+  
+  return;
+}
+
+
+void DFPlayerMini_Fast::sendData()
 {
   _sending[0] = SB;
   _sending[1] = VER;
