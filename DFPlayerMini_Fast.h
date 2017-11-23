@@ -9,6 +9,9 @@
   #define LEN 0x6 //number of bytes after "LEN" (except for checksum data and EB)
   #define FEEDBACK 0 //no feedback requested
   #define EB 0xEF //end byte
+  #define VOLUME_COMMAND 6
+  #define LOOP_COMMAND 8
+  #define PLAY_COMMAND 3
 
   class DFPlayerMini_Fast
   {
@@ -24,8 +27,8 @@
       bool begin(Stream& stream);
       void findChecksum(uint8_t commandValue, uint8_t feedback, uint8_t paramMSB, uint8_t paramLSB, uint8_t& checksumMSB, uint8_t& checksumLSB);
       void volume(uint8_t volume, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
-      void loop(uint8_t volume, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
-      void play(uint8_t volume, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
+      void loop(uint8_t fileNum, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
+      void play(uint8_t fileNum, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
       void sendData(Strean* _serial, uint8_t commandValue, uint8_t paramMSB, uint8_t paramLSB, uint8_t checksumMSB, uint8_t checksumLSB);
   };
 
