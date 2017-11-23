@@ -25,7 +25,7 @@
       void volume(uint8_t volume, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
       void loop(uint8_t volume, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
       void play(uint8_t volume, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
-      void sendData(uint8_t commandValue, uint8_t paramMSB, uint8_t paramLSB, uint8_t checksumMSB, uint8_t checksumLSB);
+      void sendData(Strean* _serial, uint8_t commandValue, uint8_t paramMSB, uint8_t paramLSB, uint8_t checksumMSB, uint8_t checksumLSB);
   };
 
 #endif
