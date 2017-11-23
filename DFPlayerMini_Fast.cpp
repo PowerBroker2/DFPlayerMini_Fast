@@ -63,7 +63,7 @@ void DFPlayerMini_Fast::sendData(uint8_t commandValue, uint8_t paramMSB, uint8_t
 {
   _serial->write(SB);
   _serial->write(VER);
-  _serial->write(NUMBER);
+  _serial->write(LEN);
   _serial->write(commandValue);
   _serial->write(FEEDBACK);
   _serial->write(paramMSB);
