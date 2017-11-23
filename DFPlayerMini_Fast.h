@@ -1,7 +1,8 @@
 #include "Arduino.h"
 
 #ifndef DFPlayerMini_Fast_cpp
-    #define DFPlayerMini_Fast_cpp
+
+  #define DFPlayerMini_Fast_cpp
 
   #define SB 0x7E //start byte
   #define VER 0xFF //version
