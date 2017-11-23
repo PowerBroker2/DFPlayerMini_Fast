@@ -21,6 +21,7 @@
       uint8_t checksumMSB = 0;
       uint8_t checksumLSB = 0;
 
+      bool begin(Stream& stream);
       void findChecksum(uint8_t commandValue, uint8_t feedback, uint8_t paramMSB, uint8_t paramLSB, uint8_t& checksumMSB, uint8_t& checksumLSB);
       void volume(uint8_t volume, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
       void loop(uint8_t volume, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
