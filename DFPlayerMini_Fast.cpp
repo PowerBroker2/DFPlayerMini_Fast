@@ -1,14 +1,12 @@
 #include "DFPlayerMini_Fast.h"
 
 
-
 void DFPlayerMini_Fast::begin(Stream &stream)
 {
   _serial = &stream;
   
   return;
 }
-
 
 
 void DFPlayerMini_Fast::findChecksum(uint8_t commandValue, uint8_t paramMSB, uint8_t paramLSB, uint8_t& checksumMSB, uint8_t& checksumLSB)
@@ -20,7 +18,6 @@ void DFPlayerMini_Fast::findChecksum(uint8_t commandValue, uint8_t paramMSB, uin
   
   return;
 }
-
 
 
 void DFPlayerMini_Fast::volume(uint8_t volume, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB)
@@ -36,8 +33,6 @@ void DFPlayerMini_Fast::volume(uint8_t volume, uint8_t& commandValue, uint8_t& p
 }
 
 
-
-
 void DFPlayerMini_Fast::loop(uint8_t fileNum, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB)
 {
   commandValue = LOOP_COMMAND;
@@ -51,7 +46,6 @@ void DFPlayerMini_Fast::loop(uint8_t fileNum, uint8_t& commandValue, uint8_t& pa
 }
 
 
-
 void DFPlayerMini_Fast::play(uint8_t fileNum, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB)
 {
   commandValue = PLAY_COMMAND;
@@ -63,7 +57,6 @@ void DFPlayerMini_Fast::play(uint8_t fileNum, uint8_t& commandValue, uint8_t& pa
   
   return;
 }
-
 
 
 void DFPlayerMini_Fast::sendData(uint8_t commandValue, uint8_t paramMSB, uint8_t paramLSB, uint8_t checksumMSB, uint8_t checksumLSB)
