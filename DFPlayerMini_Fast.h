@@ -41,8 +41,8 @@
       void begin(Stream& stream);
       void findChecksum();
       void volume(uint8_t volume);
-      void loop(uint8_t fileNum);
-      void play(uint8_t fileNum);
+      void loop(uint16_t fileNum);
+      void play(uint16_t fileNum);
       void EQSelect(uint8_t setting);
       void pause();
       void resume();
