@@ -33,11 +33,11 @@ void DFPlayerMini_Fast::volume(uint8_t volume)
 }
 
 
-void DFPlayerMini_Fast::loop(uint8_t fileNum)
+void DFPlayerMini_Fast::loop(uint16_t fileNum)
 {
   commandValue = LOOP_COMMAND;
-  paramMSB = 0;
-  paramLSB = fileNum;
+  paramMSB = (fileNum >> 8) & 0xFF;
+  paramLSB = fileNum & 0xFF;
   
   findChecksum();
   sendData();
@@ -46,11 +46,11 @@ void DFPlayerMini_Fast::loop(uint8_t fileNum)
 }
 
 
-void DFPlayerMini_Fast::play(uint8_t fileNum)
+void DFPlayerMini_Fast::play(uint16_t fileNum)
 {
   commandValue = PLAY_COMMAND;
-  paramMSB = 0;
-  paramLSB = fileNum;
+  paramMSB = (fileNum >> 8) & 0xFF;
+  paramLSB = fileNum & 0xFF;
   
   findChecksum();
   sendData();
