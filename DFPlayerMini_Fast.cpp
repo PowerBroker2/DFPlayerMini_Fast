@@ -30,7 +30,6 @@ void DFPlayerMini_Fast::volume(uint8_t volume, uint8_t& commandValue, uint8_t& p
   paramLSB = volume;
   
   findChecksum(commandValue, paramMSB, paramLSB, checksumMSB, checksumLSB);
-  
   sendData(commandValue, paramMSB, paramLSB, checksumMSB, checksumLSB);
   
   return;
@@ -46,7 +45,6 @@ void DFPlayerMini_Fast::loop(uint8_t fileNum, uint8_t& commandValue, uint8_t& pa
   paramLSB = fileNum;
   
   findChecksum(commandValue, paramMSB, paramLSB, checksumMSB, checksumLSB);
-  
   sendData(commandValue, paramMSB, paramLSB, checksumMSB, checksumLSB);
   
   return;
@@ -61,7 +59,6 @@ void DFPlayerMini_Fast::play(uint8_t fileNum, uint8_t& commandValue, uint8_t& pa
   paramLSB = fileNum;
   
   findChecksum(commandValue, paramMSB, paramLSB, checksumMSB, checksumLSB);
-  
   sendData(commandValue, paramMSB, paramLSB, checksumMSB, checksumLSB);
   
   return;
