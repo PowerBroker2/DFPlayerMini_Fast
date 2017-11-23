@@ -4,6 +4,7 @@
 
   #define DFPlayerMini_Fast_cpp
 
+  #define DFPLAYER_SEND_LENGTH 10
   #define SB 0x7E //start byte
   #define VER 0xFF //version
   #define LEN 0x6 //number of bytes after "LEN" (except for checksum data and EB)
@@ -17,6 +18,8 @@
   {
     public:
       Stream* _serial;
+    
+      uint8_t _sending[DFPLAYER_SEND_LENGTH] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   
       uint8_t commandValue = 0;
       uint8_t paramMSB = 0;
@@ -29,7 +32,7 @@
       void volume(uint8_t volume, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
       void loop(uint8_t fileNum, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
       void play(uint8_t fileNum, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
-      void sendData(uint8_t commandValue, uint8_t paramMSB, uint8_t paramLSB, uint8_t checksumMSB, uint8_t checksumLSB);
+      void sendData(uint8_t _sending[], uint8_t commandValue, uint8_t paramMSB, uint8_t paramLSB, uint8_t checksumMSB, uint8_t checksumLSB);
   };
 
 #endif
