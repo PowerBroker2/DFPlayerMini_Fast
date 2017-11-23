@@ -10,9 +10,20 @@
   #define LEN 0x6 //number of bytes after "LEN" (except for checksum data and EB)
   #define FEEDBACK 0 //no feedback requested
   #define EB 0xEF //end byte
-  #define VOLUME_COMMAND 6
-  #define LOOP_COMMAND 8
-  #define PLAY_COMMAND 3
+
+  #define PLAY_COMMAND 0x03
+  #define VOLUME_COMMAND 0x06
+  #define EQ_COMMAND 0x07
+  #define LOOP_COMMAND 0x08
+  #define RESUME_COMMAND 0x0D
+  #define PAUSE_COMMAND 0x0E
+
+  #define EQ_NORMAL 0
+  #define EQ_POP 1
+  #define EQ_ROCK 2
+  #define EQ_JAZZ 3
+  #define EQ_CLASSIC 4
+  #define EQ_Base 5
 
   class DFPlayerMini_Fast
   {
@@ -28,11 +39,14 @@
       uint8_t checksumLSB = 0;
 
       void begin(Stream& stream);
-      void findChecksum(uint8_t commandValue, uint8_t paramMSB, uint8_t paramLSB, uint8_t& checksumMSB, uint8_t& checksumLSB);
-      void volume(uint8_t _sending[], uint8_t volume, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
-      void loop(uint8_t _sending[], uint8_t fileNum, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
-      void play(uint8_t _sending[], uint8_t fileNum, uint8_t& commandValue, uint8_t& paramMSB, uint8_t& paramLSB);
-      void sendData(uint8_t _sending[], uint8_t commandValue, uint8_t paramMSB, uint8_t paramLSB, uint8_t checksumMSB, uint8_t checksumLSB);
+      void findChecksum();
+      void volume(uint8_t volume);
+      void loop(uint8_t fileNum);
+      void play(uint8_t fileNum);
+      void EQSelect(uint8_t setting);
+      void pause();
+      void resume();
+      void sendData();
   };
 
 #endif
