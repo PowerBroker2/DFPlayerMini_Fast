@@ -59,18 +59,20 @@ void DFPlayerMini_Fast::play(uint8_t fileNum, uint8_t& commandValue, uint8_t& pa
 }
 
 
-void DFPlayerMini_Fast::sendData(uint8_t commandValue, uint8_t paramMSB, uint8_t paramLSB, uint8_t checksumMSB, uint8_t checksumLSB)
+void DFPlayerMini_Fast::sendData(uint8_t _sending[], uint8_t commandValue, uint8_t paramMSB, uint8_t paramLSB, uint8_t checksumMSB, uint8_t checksumLSB)
 {
-  _serial->write(SB);
-  _serial->write(VER);
-  _serial->write(LEN);
-  _serial->write(commandValue);
-  _serial->write(FEEDBACK);
-  _serial->write(paramMSB);
-  _serial->write(paramLSB);
-  _serial->write(checksumMSB);
-  _serial->write(checksumLSB);
-  _serial->write(EB);
+  _sending[0] = SB;
+  _sending[1] = VER;
+  _sending[2] = LEN;
+  _sending[3] = commandValue;
+  _sending[4] = FEEDBACK;
+  _sending[5] = paramMSB;
+  _sending[6] = paramLSB;
+  _sending[7] = checksumMSB;
+  _sending[8] = checksumLSB;
+  _sending[9] = EB;
+  
+  _serial->write(_sending, DFPLAYER_SEND_LENGTH);
   
   return;
 }
