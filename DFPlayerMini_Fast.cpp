@@ -22,12 +22,15 @@ void DFPlayerMini_Fast::findChecksum()
 
 void DFPlayerMini_Fast::volume(uint8_t volume)
 {
-  commandValue = VOLUME_COMMAND;
-  paramMSB = 0;
-  paramLSB = volume;
-  
-  findChecksum();
-  sendData();
+  if(volume <= 30)
+  {
+    commandValue = VOLUME_COMMAND;
+    paramMSB = 0;
+    paramLSB = volume;
+    
+    findChecksum();
+    sendData();
+  }
   
   return;
 }
