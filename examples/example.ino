@@ -1,20 +1,30 @@
 #include <DFPlayerMini_Fast.h>
 
-//create a class instance
 DFPlayerMini_Fast myMP3;
 
 void setup()
 {
-  //initialize serial port
-  Serial.begin(9600);
+  Serial.begin(115200);
+  Serial1.begin(9600);
+
+  myMP3.begin(Serial1);
   
-  //initialize MP3 player
-  myMP3.begin(Serial);
-  
-  //adjust the voluem
+  Serial.println("Setting volume to max");
   myMP3.volume(30);
+  delay(20);
   
-  //loop first file in folder - folder must be named "mp3"
+  Serial.println("Playing track 1 for 5 sec");
+  myMP3.play(1);
+  delay(5000);
+
+  Serial.println("Sleeping for 5 sec");
+  myMP3.sleep();
+  delay(5000);
+
+  Serial.println("Waking up");
+  myMP3.wakeUp();
+
+  Serial.println("Looping track 1");
   myMP3.loop(1);
 }
 
