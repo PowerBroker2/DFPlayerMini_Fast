@@ -3,11 +3,11 @@
 
 
 
-void DFPlayerMini_Fast::begin(Stream &stream)
+bool DFPlayerMini_Fast::begin(Stream &stream)
 {
 	_serial = &stream;
   
-	return;
+	return true;
 }
 
 
