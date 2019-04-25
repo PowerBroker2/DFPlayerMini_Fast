@@ -121,7 +121,7 @@
 
 
 
-		void begin(Stream& stream);
+		bool begin(Stream& stream);
 
 		void playNext();
 		void playPrevious();
