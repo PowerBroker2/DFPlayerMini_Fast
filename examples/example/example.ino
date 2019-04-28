@@ -1,14 +1,16 @@
+#include <SoftwareSerial.h>
 #include <DFPlayerMini_Fast.h>
 
+SoftwareSerial mySerial(10, 11); // RX, TX
 DFPlayerMini_Fast myMP3;
 
 void setup()
 {
   Serial.begin(115200);
-  Serial1.begin(9600);
+  mySerial.begin(9600);
 
   //this program uses a hardware serial port (i.e. on a Mega), but a softwareserial port can be used
-  myMP3.begin(Serial1);
+  myMP3.begin(mySerial);
   
   Serial.println("Setting volume to max");
   myMP3.volume(30);
