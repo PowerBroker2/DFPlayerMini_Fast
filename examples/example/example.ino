@@ -9,7 +9,6 @@ void setup()
   Serial.begin(115200);
   mySerial.begin(9600);
 
-  //this program uses a hardware serial port (i.e. on a Mega), but a softwareserial port can be used
   myMP3.begin(mySerial);
   
   Serial.println("Setting volume to max");
