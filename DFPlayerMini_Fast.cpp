@@ -354,6 +354,40 @@ void DFPlayerMini_Fast::loop(uint16_t trackNum)
 
 
 
+bool DFPlayerMini_Fast::trackIsPlaying()
+{
+	uint8_t i = 0;
+	byte recChar;
+	bool status = false;
+
+	// clear out old data from the buffer
+	while (_serial->available())
+		_serial->read();
+
+	commandValue = GET_STATUS_COMMAND;
+	feedbackValue = FEEDBACK;
+	paramMSB = 0;
+	paramLSB = 0;
+
+	findChecksum();
+	sendData();
+	
+	delay(100); // this delay is required for some mysterious reason...if not present, only 2 bytes of serial data will be recieved, instad of the expected 32 bytes
+	while (_serial->available())
+	{
+		recChar = _serial->read();
+		if (i == 6)
+			if (recChar == 1)
+				status = true;
+		i += 1;
+	}
+
+	return status;
+}
+
+
+
+
 void DFPlayerMini_Fast::findChecksum()
 {
 	uint16_t checksum = (~(VER + LEN + commandValue + feedbackValue + paramMSB + paramLSB)) + 1;

@@ -19,6 +19,7 @@
 	#define FEEDBACK			1	//feedback requested
 	#define NO_FEEDBACK			0	//no feedback requested
 	#define EB				0xEF	//end byte
+	#define RESPONSE_LEN	16
 
 	//-------------------------------------------------------------------------------------//
 	// Control Command Values
@@ -145,6 +146,8 @@
 		void sleep();
 		void wakeUp();
 		void loop(uint16_t trackNum);
+
+		bool trackIsPlaying();
 
 		void findChecksum();
 		void sendData();
