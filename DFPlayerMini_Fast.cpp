@@ -6,7 +6,6 @@
 bool DFPlayerMini_Fast::begin(Stream &stream)
 {
 	_serial = &stream;
-  
 	return true;
 }
 
@@ -22,8 +21,6 @@ void DFPlayerMini_Fast::playNext()
 
 	findChecksum();
 	sendData();
-
-	return;
 }
 
 
@@ -38,8 +35,6 @@ void DFPlayerMini_Fast::playPrevious()
 
 	findChecksum();
 	sendData();
-
-	return;
 }
 
 
@@ -54,8 +49,6 @@ void DFPlayerMini_Fast::play(uint16_t trackNum)
 
 	findChecksum();
 	sendData();
-
-	return;
 }
 
 
@@ -70,8 +63,6 @@ void DFPlayerMini_Fast::incVolume()
 
 	findChecksum();
 	sendData();
-
-	return;
 }
 
 
@@ -86,8 +77,6 @@ void DFPlayerMini_Fast::decVolume()
 
 	findChecksum();
 	sendData();
-
-	return;
 }
 
 
@@ -105,8 +94,6 @@ void DFPlayerMini_Fast::volume(uint8_t volume)
 		findChecksum();
 		sendData();
 	}
-  
-	return;
 }
 
 
@@ -124,8 +111,6 @@ void DFPlayerMini_Fast::EQSelect(uint8_t setting)
 		findChecksum();
 		sendData();
 	}
-
-	return;
 }
 
 
@@ -143,8 +128,6 @@ void DFPlayerMini_Fast::playbackMode(uint8_t mode)
 		findChecksum();
 		sendData();
 	}
-
-	return;
 }
 
 
@@ -162,8 +145,6 @@ void DFPlayerMini_Fast::playbackSource(uint8_t source)
 		findChecksum();
 		sendData();
 	}
-
-	return;
 }
 
 
@@ -178,8 +159,6 @@ void DFPlayerMini_Fast::standbyMode()
 
 	findChecksum();
 	sendData();
-
-	return;
 }
 
 
@@ -194,8 +173,6 @@ void DFPlayerMini_Fast::normalMode()
 
 	findChecksum();
 	sendData();
-
-	return;
 }
 
 
@@ -210,14 +187,12 @@ void DFPlayerMini_Fast::reset()
 
 	findChecksum();
 	sendData();
-
-	return;
 }
 
 
 
 
-void DFPlayerMini_Fast::playback()
+void DFPlayerMini_Fast::resume()
 {
 	commandValue = PLAYBACK_COMMAND;
 	feedbackValue = NO_FEEDBACK;
@@ -226,8 +201,6 @@ void DFPlayerMini_Fast::playback()
 
 	findChecksum();
 	sendData();
-
-	return;
 }
 
 
@@ -242,8 +215,6 @@ void DFPlayerMini_Fast::pause()
 
 	findChecksum();
 	sendData();
-
-	return;
 }
 
 
@@ -258,8 +229,6 @@ void DFPlayerMini_Fast::playFolder(uint8_t folderNum, uint8_t trackNum)
 
 	findChecksum();
 	sendData();
-
-	return;
 }
 
 
@@ -277,8 +246,6 @@ void DFPlayerMini_Fast::volumeAdjustSet(uint8_t gain)
 		findChecksum();
 		sendData();
 	}
-
-	return;
 }
 
 
@@ -293,8 +260,6 @@ void DFPlayerMini_Fast::startRepeatPlay()
 
 	findChecksum();
 	sendData();
-
-	return;
 }
 
 
@@ -309,8 +274,6 @@ void DFPlayerMini_Fast::stopRepeatPlay()
 
 	findChecksum();
 	sendData();
-
-	return;
 }
 
 
@@ -319,8 +282,6 @@ void DFPlayerMini_Fast::stopRepeatPlay()
 void DFPlayerMini_Fast::sleep()
 {
 	playbackSource(SLEEP);
-
-	return;
 }
 
 
@@ -331,8 +292,6 @@ void DFPlayerMini_Fast::wakeUp()
 	playbackSource(TF);
 
 	delay(100);
-
-	return;
 }
 
 
@@ -347,8 +306,6 @@ void DFPlayerMini_Fast::loop(uint16_t trackNum)
   
   findChecksum();
   sendData();
-  
-  return;
 }
 
 
@@ -357,7 +314,7 @@ void DFPlayerMini_Fast::loop(uint16_t trackNum)
 bool DFPlayerMini_Fast::trackIsPlaying()
 {
 	uint8_t i = 0;
-	byte recChar;
+	uint8_t recChar;
 	bool status = false;
 
 	// clear out old data from the buffer
@@ -371,7 +328,7 @@ bool DFPlayerMini_Fast::trackIsPlaying()
 
 	findChecksum();
 	sendData();
-	
+
 	delay(100); // this delay is required for some mysterious reason...if not present, only 2 bytes of serial data will be recieved, instad of the expected 32 bytes
 	while (_serial->available())
 	{
@@ -388,14 +345,39 @@ bool DFPlayerMini_Fast::trackIsPlaying()
 
 
 
+/*
+ ************************************* TODO *************************************
+*/
+uint8_t DFPlayerMini_Fast::currentTrack()
+{
+	uint8_t recChar;
+
+	commandValue = GET_TF_TRACK_COMMAND;
+	feedbackValue = FEEDBACK;
+	paramMSB = 0;
+	paramLSB = 0;
+
+	findChecksum();
+	sendData();
+
+	delay(100);
+	while (_serial->available())
+	{
+		recChar = _serial->read();
+	}
+
+	return -1;
+}
+
+
+
+
 void DFPlayerMini_Fast::findChecksum()
 {
 	uint16_t checksum = (~(VER + LEN + commandValue + feedbackValue + paramMSB + paramLSB)) + 1;
 
 	checksumMSB = checksum >> 8;
 	checksumLSB = checksum & 0xFF;
-
-	return;
 }
 
 
@@ -415,9 +397,4 @@ void DFPlayerMini_Fast::sendData()
 	_sending[9] = EB;
   
 	_serial->write(_sending, DFPLAYER_SEND_LENGTH);
-  
-	return;
 }
-
-
-
