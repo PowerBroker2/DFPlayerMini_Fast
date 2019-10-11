@@ -54,6 +54,20 @@ void DFPlayerMini_Fast::play(uint16_t trackNum)
 
 
 
+void DFPlayerMini_Fast::loop(uint16_t trackNum)
+{
+  commandValue = PLAYBACK_MODE_COMMAND;
+  feedbackValue = NO_FEEDBACK;
+  paramMSB = (trackNum >> 8) & 0xFF;
+  paramLSB = trackNum & 0xFF;
+  
+  findChecksum();
+  sendData();
+}
+
+
+
+
 void DFPlayerMini_Fast::incVolume()
 {
 	commandValue = INC_VOL_COMMAND;
@@ -292,20 +306,6 @@ void DFPlayerMini_Fast::wakeUp()
 	playbackSource(TF);
 
 	delay(100);
-}
-
-
-
-
-void DFPlayerMini_Fast::loop(uint16_t trackNum)
-{
-  commandValue = PLAYBACK_MODE_COMMAND;
-  feedbackValue = NO_FEEDBACK;
-  paramMSB = (trackNum >> 8) & 0xFF;
-  paramLSB = trackNum & 0xFF;
-  
-  findChecksum();
-  sendData();
 }
 
 
