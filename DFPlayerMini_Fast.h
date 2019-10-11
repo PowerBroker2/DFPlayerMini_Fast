@@ -121,6 +121,7 @@ public:
 	void playNext();
 	void playPrevious();
 	void play(uint16_t trackNum);
+	void loop(uint16_t trackNum);
 	void incVolume();
 	void decVolume();
 	void volume(uint8_t volume);
@@ -136,14 +137,11 @@ public:
 	void volumeAdjustSet(uint8_t gain);
 	void startRepeatPlay();
 	void stopRepeatPlay();
-
 	void sleep();
 	void wakeUp();
-	void loop(uint16_t trackNum);
-
 	bool trackIsPlaying();
 	uint8_t currentTrack();
-
+	
 	void findChecksum();
 	void sendData();
 };
