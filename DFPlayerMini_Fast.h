@@ -35,6 +35,7 @@
 #define SPEC_FOLDER_COMMAND     0x0F
 #define VOL_ADJ_COMMAND         0x10
 #define REPEAT_PLAY_COMMAND     0x11
+#define RANDOM_ALL_COMMAND      0x18
 
 //-------------------------------------------------------------------------------------//
 // Query Command Values
@@ -122,6 +123,7 @@ public:
 	void playPrevious();
 	void play(uint16_t trackNum);
 	void loop(uint16_t trackNum);
+	void randomAll();
 	void incVolume();
 	void decVolume();
 	void volume(uint8_t volume);

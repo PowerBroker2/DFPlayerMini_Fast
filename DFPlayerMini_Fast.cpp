@@ -14,7 +14,7 @@ bool DFPlayerMini_Fast::begin(Stream &stream)
 
 void DFPlayerMini_Fast::playNext()
 {
-	commandValue = NEXT_COMMAND;
+	commandValue  = NEXT_COMMAND;
 	feedbackValue = NO_FEEDBACK;
 	paramMSB = 0;
 	paramLSB = 1;
@@ -28,7 +28,7 @@ void DFPlayerMini_Fast::playNext()
 
 void DFPlayerMini_Fast::playPrevious()
 {
-	commandValue = PREV_COMMAND;
+	commandValue  = PREV_COMMAND;
 	feedbackValue = NO_FEEDBACK;
 	paramMSB = 0;
 	paramLSB = 1;
@@ -42,7 +42,7 @@ void DFPlayerMini_Fast::playPrevious()
 
 void DFPlayerMini_Fast::play(uint16_t trackNum)
 {
-	commandValue = PLAY_COMMAND;
+	commandValue  = PLAY_COMMAND;
 	feedbackValue = NO_FEEDBACK;
 	paramMSB = (trackNum >> 8) & 0xFF;
 	paramLSB = trackNum & 0xFF;
@@ -68,9 +68,23 @@ void DFPlayerMini_Fast::loop(uint16_t trackNum)
 
 
 
+void DFPlayerMini_Fast::randomAll()
+{
+  commandValue  = RANDOM_ALL_COMMAND;
+  feedbackValue = NO_FEEDBACK;
+  paramMSB = 0;
+  paramLSB = 0;
+  
+  findChecksum();
+  sendData();
+}
+
+
+
+
 void DFPlayerMini_Fast::incVolume()
 {
-	commandValue = INC_VOL_COMMAND;
+	commandValue  = INC_VOL_COMMAND;
 	feedbackValue = NO_FEEDBACK;
 	paramMSB = 0;
 	paramLSB = 1;
@@ -84,7 +98,7 @@ void DFPlayerMini_Fast::incVolume()
 
 void DFPlayerMini_Fast::decVolume()
 {
-	commandValue = DEC_VOL_COMMAND;
+	commandValue  = DEC_VOL_COMMAND;
 	feedbackValue = NO_FEEDBACK;
 	paramMSB = 0;
 	paramLSB = 1;
@@ -100,7 +114,7 @@ void DFPlayerMini_Fast::volume(uint8_t volume)
 {
 	if (volume <= 30)
 	{
-		commandValue = VOLUME_COMMAND;
+		commandValue  = VOLUME_COMMAND;
 		feedbackValue = NO_FEEDBACK;
 		paramMSB = 0;
 		paramLSB = volume;
@@ -117,7 +131,7 @@ void DFPlayerMini_Fast::EQSelect(uint8_t setting)
 {
 	if (setting <= 5)
 	{
-		commandValue = EQ_COMMAND;
+		commandValue  = EQ_COMMAND;
 		feedbackValue = NO_FEEDBACK;
 		paramMSB = 0;
 		paramLSB = setting;
@@ -134,7 +148,7 @@ void DFPlayerMini_Fast::playbackMode(uint8_t mode)
 {
 	if (mode <= 5)
 	{
-		commandValue = PLAYBACK_MODE_COMMAND;
+		commandValue  = PLAYBACK_MODE_COMMAND;
 		feedbackValue = NO_FEEDBACK;
 		paramMSB = 0;
 		paramLSB = mode;
@@ -151,7 +165,7 @@ void DFPlayerMini_Fast::playbackSource(uint8_t source)
 {
 	if ((source > 0) && (source <= 5))
 	{
-		commandValue = PLAYBACK_SRC_COMMAND;
+		commandValue  = PLAYBACK_SRC_COMMAND;
 		feedbackValue = NO_FEEDBACK;
 		paramMSB = 0;
 		paramLSB = source;
@@ -166,7 +180,7 @@ void DFPlayerMini_Fast::playbackSource(uint8_t source)
 
 void DFPlayerMini_Fast::standbyMode()
 {
-	commandValue = STANDBY_COMMAND;
+	commandValue  = STANDBY_COMMAND;
 	feedbackValue = NO_FEEDBACK;
 	paramMSB = 0;
 	paramLSB = 1;
@@ -180,7 +194,7 @@ void DFPlayerMini_Fast::standbyMode()
 
 void DFPlayerMini_Fast::normalMode()
 {
-	commandValue = NORMAL_COMMAND;
+	commandValue  = NORMAL_COMMAND;
 	feedbackValue = NO_FEEDBACK;
 	paramMSB = 0;
 	paramLSB = 1;
@@ -194,7 +208,7 @@ void DFPlayerMini_Fast::normalMode()
 
 void DFPlayerMini_Fast::reset()
 {
-	commandValue = RESET_COMMAND;
+	commandValue  = RESET_COMMAND;
 	feedbackValue = NO_FEEDBACK;
 	paramMSB = 0;
 	paramLSB = 1;
@@ -208,7 +222,7 @@ void DFPlayerMini_Fast::reset()
 
 void DFPlayerMini_Fast::resume()
 {
-	commandValue = PLAYBACK_COMMAND;
+	commandValue  = PLAYBACK_COMMAND;
 	feedbackValue = NO_FEEDBACK;
 	paramMSB = 0;
 	paramLSB = 1;
@@ -222,7 +236,7 @@ void DFPlayerMini_Fast::resume()
 
 void DFPlayerMini_Fast::pause()
 {
-	commandValue = PAUSE_COMMAND;
+	commandValue  = PAUSE_COMMAND;
 	feedbackValue = NO_FEEDBACK;
 	paramMSB = 0;
 	paramLSB = 1;
@@ -236,7 +250,7 @@ void DFPlayerMini_Fast::pause()
 
 void DFPlayerMini_Fast::playFolder(uint8_t folderNum, uint8_t trackNum)
 {
-	commandValue = SPEC_FOLDER_COMMAND;
+	commandValue  = SPEC_FOLDER_COMMAND;
 	feedbackValue = NO_FEEDBACK;
 	paramMSB = folderNum;
 	paramLSB = trackNum;
@@ -252,7 +266,7 @@ void DFPlayerMini_Fast::volumeAdjustSet(uint8_t gain)
 {
 	if (gain <= 31)
 	{
-		commandValue = VOL_ADJ_COMMAND;
+		commandValue  = VOL_ADJ_COMMAND;
 		feedbackValue = NO_FEEDBACK;
 		paramMSB = 0;
 		paramLSB = VOL_ADJUST + gain;
@@ -267,7 +281,7 @@ void DFPlayerMini_Fast::volumeAdjustSet(uint8_t gain)
 
 void DFPlayerMini_Fast::startRepeatPlay()
 {
-	commandValue = REPEAT_PLAY_COMMAND;
+	commandValue  = REPEAT_PLAY_COMMAND;
 	feedbackValue = NO_FEEDBACK;
 	paramMSB = 0;
 	paramLSB = START_REPEAT;
@@ -281,7 +295,7 @@ void DFPlayerMini_Fast::startRepeatPlay()
 
 void DFPlayerMini_Fast::stopRepeatPlay()
 {
-	commandValue = REPEAT_PLAY_COMMAND;
+	commandValue  = REPEAT_PLAY_COMMAND;
 	feedbackValue = NO_FEEDBACK;
 	paramMSB = 0;
 	paramLSB = STOP_REPEAT;
@@ -345,9 +359,6 @@ bool DFPlayerMini_Fast::trackIsPlaying()
 
 
 
-/*
- ************************************* TODO *************************************
-*/
 uint8_t DFPlayerMini_Fast::currentTrack()
 {
 	uint8_t recChar;
