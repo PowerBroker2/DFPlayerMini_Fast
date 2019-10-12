@@ -35,13 +35,19 @@
 #define SPEC_FOLDER_COMMAND     0x0F
 #define VOL_ADJ_COMMAND         0x10
 #define REPEAT_PLAY_COMMAND     0x11
+#define USE_MP3_FOLDER_COMMAND  0x12
+#define INSERT_ADVERT_COMMAND   0x13
+#define SPEC_TRACK_3000_COMMAND 0x14
+#define STOP_ADVERT_COMMAND     0x15
+#define STOP_COMMAND            0x16
+#define REPEAT_FOLDER_COMMAND   0x17
+#define RANDOM_ALL_COMMAND      0x18
+#define REPEAT_CURRENT_COMMAND  0x19
+#define SET_DAC_COMMAND         0x1A
 
 //-------------------------------------------------------------------------------------//
 // Query Command Values
 //-------------------------------------------------------------------------------------//
-#define STAY_1                  0x3C
-#define STAY_2                  0x3D
-#define STAY_3                  0x3E
 #define SEND_INIT_COMMAND       0x3F
 #define RETRANSMIT_COMMAND      0x40
 #define REPLY_COMMAND           0x41
@@ -122,6 +128,7 @@ public:
 	void playPrevious();
 	void play(uint16_t trackNum);
 	void loop(uint16_t trackNum);
+	void randomAll();
 	void incVolume();
 	void decVolume();
 	void volume(uint8_t volume);
