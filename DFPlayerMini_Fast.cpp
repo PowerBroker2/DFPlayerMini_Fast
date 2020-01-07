@@ -309,20 +309,6 @@ void DFPlayerMini_Fast::stopRepeatPlay()
 
 
 
-void DFPlayerMini_Fast::playFromMP3Folder(uint16_t trackNum)
-{
-	sendStack.commandValue  = SPEC_TRACK_3000;
-	sendStack.feedbackValue = NO_FEEDBACK;
-	sendStack.paramMSB = (trackNum >> 8) & 0xFF;
-	sendStack.paramLSB = trackNum & 0xFF;
-
-	findChecksum(&sendStack);
-	sendData();
-}
-
-
-
-
 void DFPlayerMini_Fast::repeatFolder(uint16_t folder)
 {
 	sendStack.commandValue  = REPEAT_FOLDER;
