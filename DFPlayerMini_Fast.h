@@ -136,6 +136,8 @@ public:
 	void playNext();
 	void playPrevious();
 	void play(uint16_t trackNum);
+	void playFromMP3Folder(uint16_t trackNum);
+	void playAdvertisement(uint16_t trackNum);
 	void incVolume();
 	void decVolume();
 	void volume(uint8_t volume);
@@ -151,7 +153,6 @@ public:
 	void volumeAdjustSet(uint8_t gain);
 	void startRepeatPlay();
 	void stopRepeatPlay();
-	void playFromMP3Folder(uint16_t trackNum);
 	void repeatFolder(uint16_t folder);
 	void randomAll();
 	void startRepeat();
