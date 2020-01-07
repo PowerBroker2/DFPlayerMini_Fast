@@ -63,6 +63,28 @@ void DFPlayerMini_Fast::play(uint16_t trackNum)
 }
 
 
+void DFPlayerMini_Fast::playFromMP3Folder(uint16_t trackNum)
+{
+	sendStack.commandValue  = USE_MP3_FOLDER;
+	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.paramMSB = (trackNum >> 8) & 0xFF;
+	sendStack.paramLSB = trackNum & 0xFF;
+
+	findChecksum(&sendStack);
+	sendData();
+}
+
+
+void DFPlayerMini_Fast::playAdvertisement(uint16_t trackNum)
+{
+	sendStack.commandValue  = INSERT_ADVERT;
+	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.paramMSB = (trackNum >> 8) & 0xFF;
+	sendStack.paramLSB = trackNum & 0xFF;
+
+	findChecksum(&sendStack);
+	sendData();
+}
 
 
 void DFPlayerMini_Fast::incVolume()

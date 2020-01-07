@@ -1,5 +1,9 @@
 # DFPlayer Mini Fast
-Fast and easy to understand Arduino library to use the DFPlayer Mini MP3 module from DFRobot.com. This is a huge improvement (both in terms of execution speed and simplicity) to the standard library provided by DFRobot.com.
+Fast and easy to understand Arduino library to use the DFPlayer Mini MP3 module from DFRobot.com. This is a huge improvement (both in terms of execution speed and simplicity) to the standard library provided by DFRobot.com. 
+
+
+## Important Notes
+If you use the playFromMP3Folder() or playAdvertisement() functions, the files to be played must be organised in an extremely precise manner. The "MP3 Folder" must be in the root of the storage device (such as a MicroSD card) and it must be called "mp3". The folder name is probably not case-sensitive. Likewise, the "Advertisement" folder used for short interruptions to main audio playback must also be in the root of the storage device, and it must be called "advert". In addition, audio filenames must consist of a 4-digit number, padded by zeroes. Therefore, the first track would be "0001.mp3". If your files are titled with a less-than-4-digit name, such as "001.mp3" etc, the player will simply ignore the command.
 
 ## Library API:
 ```c++
@@ -8,6 +12,8 @@ bool begin(Stream& stream);
 void playNext();
 void playPrevious();
 void play(uint16_t trackNum);
+void playFromMP3Folder(uint16_t trackNum);
+void playAdvertisement(uint16_t trackNum);
 void incVolume();
 void decVolume();
 void volume(uint8_t volume);
