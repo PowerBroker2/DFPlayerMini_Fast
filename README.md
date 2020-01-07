@@ -29,7 +29,6 @@ void playFolder(uint8_t folderNum, uint8_t trackNum);
 void volumeAdjustSet(uint8_t gain);
 void startRepeatPlay();
 void stopRepeatPlay();
-void playFromMP3Folder(uint16_t trackNum);
 void repeatFolder(uint16_t folder);
 void randomAll();
 void startRepeat();
