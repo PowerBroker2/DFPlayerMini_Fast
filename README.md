@@ -14,6 +14,7 @@ void playPrevious();
 void play(uint16_t trackNum);
 void playFromMP3Folder(uint16_t trackNum);
 void playAdvertisement(uint16_t trackNum);
+void stopAdvertisement();
 void incVolume();
 void decVolume();
 void volume(uint8_t volume);
