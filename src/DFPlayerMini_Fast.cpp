@@ -87,6 +87,18 @@ void DFPlayerMini_Fast::playAdvertisement(uint16_t trackNum)
 }
 
 
+void DFPlayerMini_Fast::stopAdvertisement()
+{
+	sendStack.commandValue = STOP_ADVERT;
+	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.paramMSB = 0;
+	sendStack.paramLSB = 0;
+
+	findChecksum(&sendStack);
+	sendData();
+}
+
+
 void DFPlayerMini_Fast::incVolume()
 {
 	sendStack.commandValue = INC_VOL;
