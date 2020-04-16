@@ -7,15 +7,15 @@ bool DFPlayerMini_Fast::begin(Stream &stream)
 {
 	_serial = &stream;
 
-	sendStack.start_byte = SB;
-	sendStack.version    = VER;
-	sendStack.length     = LEN;
-	sendStack.end_byte   = EB;
+	sendStack.start_byte = dfplayer::SB;
+	sendStack.version    = dfplayer::VER;
+	sendStack.length     = dfplayer::LEN;
+	sendStack.end_byte   = dfplayer::EB;
 
-	recStack.start_byte  = SB;
-	recStack.version     = VER;
-	recStack.length      = LEN;
-	recStack.end_byte    = EB;
+	recStack.start_byte  = dfplayer::SB;
+	recStack.version     = dfplayer::VER;
+	recStack.length      = dfplayer::LEN;
+	recStack.end_byte    = dfplayer::EB;
 
 	return true;
 }
@@ -25,8 +25,8 @@ bool DFPlayerMini_Fast::begin(Stream &stream)
 
 void DFPlayerMini_Fast::playNext()
 {
-	sendStack.commandValue  = NEXT;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::NEXT;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
@@ -39,8 +39,8 @@ void DFPlayerMini_Fast::playNext()
 
 void DFPlayerMini_Fast::playPrevious()
 {
-	sendStack.commandValue  = PREV;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::PREV;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
@@ -53,8 +53,8 @@ void DFPlayerMini_Fast::playPrevious()
 
 void DFPlayerMini_Fast::play(uint16_t trackNum)
 {
-	sendStack.commandValue  = PLAY;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::PLAY;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = (trackNum >> 8) & 0xFF;
 	sendStack.paramLSB = trackNum & 0xFF;
 
@@ -65,8 +65,8 @@ void DFPlayerMini_Fast::play(uint16_t trackNum)
 
 void DFPlayerMini_Fast::playFromMP3Folder(uint16_t trackNum)
 {
-	sendStack.commandValue  = USE_MP3_FOLDER;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::USE_MP3_FOLDER;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = (trackNum >> 8) & 0xFF;
 	sendStack.paramLSB = trackNum & 0xFF;
 
@@ -77,8 +77,8 @@ void DFPlayerMini_Fast::playFromMP3Folder(uint16_t trackNum)
 
 void DFPlayerMini_Fast::playAdvertisement(uint16_t trackNum)
 {
-	sendStack.commandValue  = INSERT_ADVERT;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::INSERT_ADVERT;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = (trackNum >> 8) & 0xFF;
 	sendStack.paramLSB = trackNum & 0xFF;
 
@@ -89,8 +89,8 @@ void DFPlayerMini_Fast::playAdvertisement(uint16_t trackNum)
 
 void DFPlayerMini_Fast::stopAdvertisement()
 {
-	sendStack.commandValue = STOP_ADVERT;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::STOP_ADVERT;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 0;
 
@@ -101,8 +101,8 @@ void DFPlayerMini_Fast::stopAdvertisement()
 
 void DFPlayerMini_Fast::incVolume()
 {
-	sendStack.commandValue = INC_VOL;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::INC_VOL;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
@@ -115,8 +115,8 @@ void DFPlayerMini_Fast::incVolume()
 
 void DFPlayerMini_Fast::decVolume()
 {
-	sendStack.commandValue = DEC_VOL;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::DEC_VOL;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
@@ -131,8 +131,8 @@ void DFPlayerMini_Fast::volume(uint8_t volume)
 {
 	if (volume <= 30)
 	{
-		sendStack.commandValue = VOLUME;
-		sendStack.feedbackValue = NO_FEEDBACK;
+		sendStack.commandValue  = dfplayer::VOLUME;
+		sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 		sendStack.paramMSB = 0;
 		sendStack.paramLSB = volume;
 
@@ -148,8 +148,8 @@ void DFPlayerMini_Fast::EQSelect(uint8_t setting)
 {
 	if (setting <= 5)
 	{
-		sendStack.commandValue = EQ;
-		sendStack.feedbackValue = NO_FEEDBACK;
+		sendStack.commandValue  = dfplayer::EQ;
+		sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 		sendStack.paramMSB = 0;
 		sendStack.paramLSB = setting;
 
@@ -163,8 +163,8 @@ void DFPlayerMini_Fast::EQSelect(uint8_t setting)
 
 void DFPlayerMini_Fast::loop(uint16_t trackNum)
 {
-  sendStack.commandValue = PLAYBACK_MODE;
-  sendStack.feedbackValue = NO_FEEDBACK;
+  sendStack.commandValue  = dfplayer::PLAYBACK_MODE;
+  sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
   sendStack.paramMSB = (trackNum >> 8) & 0xFF;
   sendStack.paramLSB = trackNum & 0xFF;
   
@@ -179,8 +179,8 @@ void DFPlayerMini_Fast::playbackSource(uint8_t source)
 {
 	if ((source > 0) && (source <= 5))
 	{
-		sendStack.commandValue  = PLAYBACK_SRC;
-		sendStack.feedbackValue = NO_FEEDBACK;
+		sendStack.commandValue  = dfplayer::PLAYBACK_SRC;
+		sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 		sendStack.paramMSB = 0;
 		sendStack.paramLSB = source;
 
@@ -194,8 +194,8 @@ void DFPlayerMini_Fast::playbackSource(uint8_t source)
 
 void DFPlayerMini_Fast::standbyMode()
 {
-	sendStack.commandValue  = STANDBY;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::STANDBY;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
@@ -208,8 +208,8 @@ void DFPlayerMini_Fast::standbyMode()
 
 void DFPlayerMini_Fast::normalMode()
 {
-	sendStack.commandValue  = NORMAL;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::NORMAL;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
@@ -222,8 +222,8 @@ void DFPlayerMini_Fast::normalMode()
 
 void DFPlayerMini_Fast::reset()
 {
-	sendStack.commandValue  = RESET;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::RESET;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
@@ -236,8 +236,8 @@ void DFPlayerMini_Fast::reset()
 
 void DFPlayerMini_Fast::resume()
 {
-	sendStack.commandValue  = PLAYBACK;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::PLAYBACK;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
@@ -250,8 +250,8 @@ void DFPlayerMini_Fast::resume()
 
 void DFPlayerMini_Fast::pause()
 {
-	sendStack.commandValue  = PAUSE;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::PAUSE;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
@@ -264,8 +264,8 @@ void DFPlayerMini_Fast::pause()
 
 void DFPlayerMini_Fast::playFolder(uint8_t folderNum, uint8_t trackNum)
 {
-	sendStack.commandValue  = SPEC_FOLDER;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::SPEC_FOLDER;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = folderNum;
 	sendStack.paramLSB = trackNum;
 
@@ -280,10 +280,10 @@ void DFPlayerMini_Fast::volumeAdjustSet(uint8_t gain)
 {
 	if (gain <= 31)
 	{
-		sendStack.commandValue  = VOL_ADJ;
-		sendStack.feedbackValue = NO_FEEDBACK;
+		sendStack.commandValue  = dfplayer::VOL_ADJ;
+		sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 		sendStack.paramMSB = 0;
-		sendStack.paramLSB = VOL_ADJUST + gain;
+		sendStack.paramLSB = dfplayer::VOL_ADJUST + gain;
 
 		findChecksum(&sendStack);
 		sendData();
@@ -295,10 +295,10 @@ void DFPlayerMini_Fast::volumeAdjustSet(uint8_t gain)
 
 void DFPlayerMini_Fast::startRepeatPlay()
 {
-	sendStack.commandValue  = REPEAT_PLAY;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::REPEAT_PLAY;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = START_REPEAT;
+	sendStack.paramLSB = dfplayer::START_REPEAT;
 
 	findChecksum(&sendStack);
 	sendData();
@@ -309,10 +309,10 @@ void DFPlayerMini_Fast::startRepeatPlay()
 
 void DFPlayerMini_Fast::stopRepeatPlay()
 {
-	sendStack.commandValue  = REPEAT_PLAY;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::REPEAT_PLAY;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = STOP_REPEAT;
+	sendStack.paramLSB = dfplayer::STOP_REPEAT;
 
 	findChecksum(&sendStack);
 	sendData();
@@ -323,8 +323,8 @@ void DFPlayerMini_Fast::stopRepeatPlay()
 
 void DFPlayerMini_Fast::repeatFolder(uint16_t folder)
 {
-	sendStack.commandValue  = REPEAT_FOLDER;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::REPEAT_FOLDER;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = (folder >> 8) & 0xFF;
 	sendStack.paramLSB = folder & 0xFF;
 
@@ -337,8 +337,8 @@ void DFPlayerMini_Fast::repeatFolder(uint16_t folder)
 
 void DFPlayerMini_Fast::randomAll()
 {
-	sendStack.commandValue  = RANDOM_ALL;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::RANDOM_ALL;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 0;
 
@@ -351,8 +351,8 @@ void DFPlayerMini_Fast::randomAll()
 
 void DFPlayerMini_Fast::startRepeat()
 {
-	sendStack.commandValue  = REPEAT_CURRENT;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::REPEAT_CURRENT;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 0;
 
@@ -365,8 +365,8 @@ void DFPlayerMini_Fast::startRepeat()
 
 void DFPlayerMini_Fast::stopRepeat()
 {
-	sendStack.commandValue  = REPEAT_CURRENT;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::REPEAT_CURRENT;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
@@ -379,8 +379,8 @@ void DFPlayerMini_Fast::stopRepeat()
 
 void DFPlayerMini_Fast::startDAC()
 {
-	sendStack.commandValue  = SET_DAC;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::SET_DAC;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 0;
 
@@ -393,8 +393,8 @@ void DFPlayerMini_Fast::startDAC()
 
 void DFPlayerMini_Fast::stopDAC()
 {
-	sendStack.commandValue  = SET_DAC;
-	sendStack.feedbackValue = NO_FEEDBACK;
+	sendStack.commandValue  = dfplayer::SET_DAC;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
@@ -407,7 +407,7 @@ void DFPlayerMini_Fast::stopDAC()
 
 void DFPlayerMini_Fast::sleep()
 {
-	playbackSource(SLEEP);
+	playbackSource(dfplayer::SLEEP);
 }
 
 
@@ -415,7 +415,7 @@ void DFPlayerMini_Fast::sleep()
 
 void DFPlayerMini_Fast::wakeUp()
 {
-	playbackSource(TF);
+	playbackSource(dfplayer::TF);
 
 	delay(100);
 }
@@ -425,7 +425,7 @@ void DFPlayerMini_Fast::wakeUp()
 
 bool DFPlayerMini_Fast::isPlaying()
 {
-	int16_t result = query(GET_STATUS);
+	int16_t result = query(dfplayer::GET_STATUS);
 
 	if (result != -1)
 		return (result & 1);
@@ -438,7 +438,7 @@ bool DFPlayerMini_Fast::isPlaying()
 
 int16_t DFPlayerMini_Fast::currentVolume()
 {
-	return query(GET_VOL);
+	return query(dfplayer::GET_VOL);
 }
 
 
@@ -446,7 +446,7 @@ int16_t DFPlayerMini_Fast::currentVolume()
 
 int16_t DFPlayerMini_Fast::currentEQ()
 {
-	return query(GET_EQ);
+	return query(dfplayer::GET_EQ);
 }
 
 
@@ -454,7 +454,7 @@ int16_t DFPlayerMini_Fast::currentEQ()
 
 int16_t DFPlayerMini_Fast::currentMode()
 {
-	return query(GET_MODE);
+	return query(dfplayer::GET_MODE);
 }
 
 
@@ -462,7 +462,7 @@ int16_t DFPlayerMini_Fast::currentMode()
 
 int16_t DFPlayerMini_Fast::currentVersion()
 {
-	return query(GET_VERSION);
+	return query(dfplayer::GET_VERSION);
 }
 
 
@@ -470,7 +470,7 @@ int16_t DFPlayerMini_Fast::currentVersion()
 
 int16_t DFPlayerMini_Fast::numUsbTracks()
 {
-	return query(GET_TF_FILES);
+	return query(dfplayer::GET_TF_FILES);
 }
 
 
@@ -478,7 +478,7 @@ int16_t DFPlayerMini_Fast::numUsbTracks()
 
 int16_t DFPlayerMini_Fast::numSdTracks()
 {
-	return query(GET_U_FILES);
+	return query(dfplayer::GET_U_FILES);
 }
 
 
@@ -486,7 +486,7 @@ int16_t DFPlayerMini_Fast::numSdTracks()
 
 int16_t DFPlayerMini_Fast::numFlashTracks()
 {
-	return query(GET_FLASH_FILES);
+	return query(dfplayer::GET_FLASH_FILES);
 }
 
 
@@ -494,7 +494,7 @@ int16_t DFPlayerMini_Fast::numFlashTracks()
 
 int16_t DFPlayerMini_Fast::currentUsbTrack()
 {
-	return query(GET_TF_TRACK);
+	return query(dfplayer::GET_TF_TRACK);
 }
 
 
@@ -502,7 +502,7 @@ int16_t DFPlayerMini_Fast::currentUsbTrack()
 
 int16_t DFPlayerMini_Fast::currentSdTrack()
 {
-	return query(GET_U_TRACK);
+	return query(dfplayer::GET_U_TRACK);
 }
 
 
@@ -510,7 +510,7 @@ int16_t DFPlayerMini_Fast::currentSdTrack()
 
 int16_t DFPlayerMini_Fast::currentFlashTrack()
 {
-	return query(GET_FLASH_TRACK);
+	return query(dfplayer::GET_FLASH_TRACK);
 }
 
 
@@ -518,7 +518,7 @@ int16_t DFPlayerMini_Fast::currentFlashTrack()
 
 int16_t DFPlayerMini_Fast::numTracksInFolder(uint8_t folder)
 {
-	return query(GET_FOLDER_FILES, (folder >> 8) & 0xFF, folder & 0xFF);
+	return query(dfplayer::GET_FOLDER_FILES, (folder >> 8) & 0xFF, folder & 0xFF);
 }
 
 
@@ -526,7 +526,7 @@ int16_t DFPlayerMini_Fast::numTracksInFolder(uint8_t folder)
 
 int16_t DFPlayerMini_Fast::numFolders()
 {
-	return query(GET_FOLDERS);
+	return query(dfplayer::GET_FOLDERS);
 }
 
 
@@ -574,7 +574,7 @@ int16_t DFPlayerMini_Fast::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
 	flush();
 
 	sendStack.commandValue  = cmd;
-	sendStack.feedbackValue = FEEDBACK;
+	sendStack.feedbackValue = dfplayer::FEEDBACK;
 	sendStack.paramMSB = msb;
 	sendStack.paramLSB = lsb;
 
@@ -617,7 +617,7 @@ bool DFPlayerMini_Fast::getStatus(uint8_t cmd)
 
 bool DFPlayerMini_Fast::parseFeedback()
 {
-	while (_serial->available() < STACK_SIZE)
+	while (_serial->available() < dfplayer::STACK_SIZE)
 		if (timeout())
 			return false;
 
