@@ -3,106 +3,108 @@
 
 
 
+namespace dfplayer
+{
+	//-------------------------------------------------------------------------------------//
+	// Packet Values
+	//-------------------------------------------------------------------------------------//
+	const uint8_t STACK_SIZE      = 10;   //total number of bytes in a stack/packet (same for cmds and queries)
+	const uint8_t SB              = 0x7E; //start byte
+	const uint8_t VER             = 0xFF; //version
+	const uint8_t LEN             = 0x6;  //number of bytes after "LEN" (except for checksum data and EB)
+	const uint8_t FEEDBACK        = 1;    //feedback requested
+	const uint8_t NO_FEEDBACK     = 0;    //no feedback requested
+	const uint8_t EB              = 0xEF; //end byte
 
-//-------------------------------------------------------------------------------------//
-// Packet Values
-//-------------------------------------------------------------------------------------//
-const uint8_t STACK_SIZE      = 10;   //total number of bytes in a stack/packet (same for cmds and queries)
-const uint8_t SB              = 0x7E; //start byte
-const uint8_t VER             = 0xFF; //version
-const uint8_t LEN             = 0x6;  //number of bytes after "LEN" (except for checksum data and EB)
-const uint8_t FEEDBACK        = 1;    //feedback requested
-const uint8_t NO_FEEDBACK     = 0;    //no feedback requested
-const uint8_t EB              = 0xEF; //end byte
+	//-------------------------------------------------------------------------------------//
+	// Control Command Values
+	//-------------------------------------------------------------------------------------//
+	const uint8_t NEXT            = 0x01;
+	const uint8_t PREV            = 0x02;
+	const uint8_t PLAY            = 0x03;
+	const uint8_t INC_VOL         = 0x04;
+	const uint8_t DEC_VOL         = 0x05;
+	const uint8_t VOLUME          = 0x06;
+	const uint8_t EQ              = 0x07;
+	const uint8_t PLAYBACK_MODE   = 0x08;
+	const uint8_t PLAYBACK_SRC    = 0x09;
+	const uint8_t STANDBY         = 0x0A;
+	const uint8_t NORMAL          = 0x0B;
+	const uint8_t RESET           = 0x0C;
+	const uint8_t PLAYBACK        = 0x0D;
+	const uint8_t PAUSE           = 0x0E;
+	const uint8_t SPEC_FOLDER     = 0x0F;
+	const uint8_t VOL_ADJ         = 0x10;
+	const uint8_t REPEAT_PLAY     = 0x11;
+	const uint8_t USE_MP3_FOLDER  = 0x12;
+	const uint8_t INSERT_ADVERT   = 0x13;
+	const uint8_t SPEC_TRACK_3000 = 0x14;
+	const uint8_t STOP_ADVERT     = 0x15;
+	const uint8_t STOP            = 0x16;
+	const uint8_t REPEAT_FOLDER   = 0x17;
+	const uint8_t RANDOM_ALL      = 0x18;
+	const uint8_t REPEAT_CURRENT  = 0x19;
+	const uint8_t SET_DAC         = 0x1A;
 
-//-------------------------------------------------------------------------------------//
-// Control Command Values
-//-------------------------------------------------------------------------------------//
-const uint8_t NEXT            = 0x01;
-const uint8_t PREV            = 0x02;
-const uint8_t PLAY            = 0x03;
-const uint8_t INC_VOL         = 0x04;
-const uint8_t DEC_VOL         = 0x05;
-const uint8_t VOLUME          = 0x06;
-const uint8_t EQ              = 0x07;
-const uint8_t PLAYBACK_MODE   = 0x08;
-const uint8_t PLAYBACK_SRC    = 0x09;
-const uint8_t STANDBY         = 0x0A;
-const uint8_t NORMAL          = 0x0B;
-const uint8_t RESET           = 0x0C;
-const uint8_t PLAYBACK        = 0x0D;
-const uint8_t PAUSE           = 0x0E;
-const uint8_t SPEC_FOLDER     = 0x0F;
-const uint8_t VOL_ADJ         = 0x10;
-const uint8_t REPEAT_PLAY     = 0x11;
-const uint8_t USE_MP3_FOLDER  = 0x12;
-const uint8_t INSERT_ADVERT   = 0x13;
-const uint8_t SPEC_TRACK_3000 = 0x14;
-const uint8_t STOP_ADVERT     = 0x15;
-const uint8_t STOP            = 0x16;
-const uint8_t REPEAT_FOLDER   = 0x17;
-const uint8_t RANDOM_ALL      = 0x18;
-const uint8_t REPEAT_CURRENT  = 0x19;
-const uint8_t SET_DAC         = 0x1A;
+	//-------------------------------------------------------------------------------------//
+	// Query Command Values
+	//-------------------------------------------------------------------------------------//
+	const uint8_t SEND_INIT        = 0x3F;
+	const uint8_t RETRANSMIT       = 0x40;
+	const uint8_t REPLY            = 0x41;
+	const uint8_t GET_STATUS       = 0x42;
+	const uint8_t GET_VOL          = 0x43;
+	const uint8_t GET_EQ           = 0x44;
+	const uint8_t GET_MODE         = 0x45;
+	const uint8_t GET_VERSION      = 0x46;
+	const uint8_t GET_TF_FILES     = 0x47;
+	const uint8_t GET_U_FILES      = 0x48;
+	const uint8_t GET_FLASH_FILES  = 0x49;
+	const uint8_t KEEP_ON          = 0x4A;
+	const uint8_t GET_TF_TRACK     = 0x4B;
+	const uint8_t GET_U_TRACK      = 0x4C;
+	const uint8_t GET_FLASH_TRACK  = 0x4D;
+	const uint8_t GET_FOLDER_FILES = 0x4E;
+	const uint8_t GET_FOLDERS      = 0x4F;
 
-//-------------------------------------------------------------------------------------//
-// Query Command Values
-//-------------------------------------------------------------------------------------//
-const uint8_t SEND_INIT        = 0x3F;
-const uint8_t RETRANSMIT       = 0x40;
-const uint8_t REPLY            = 0x41;
-const uint8_t GET_STATUS       = 0x42;
-const uint8_t GET_VOL          = 0x43;
-const uint8_t GET_EQ           = 0x44;
-const uint8_t GET_MODE         = 0x45;
-const uint8_t GET_VERSION      = 0x46;
-const uint8_t GET_TF_FILES     = 0x47;
-const uint8_t GET_U_FILES      = 0x48;
-const uint8_t GET_FLASH_FILES  = 0x49;
-const uint8_t KEEP_ON          = 0x4A;
-const uint8_t GET_TF_TRACK     = 0x4B;
-const uint8_t GET_U_TRACK      = 0x4C;
-const uint8_t GET_FLASH_TRACK  = 0x4D;
-const uint8_t GET_FOLDER_FILES = 0x4E;
-const uint8_t GET_FOLDERS      = 0x4F;
+	//-------------------------------------------------------------------------------------//
+	// EQ Values
+	//-------------------------------------------------------------------------------------//
+	const uint8_t EQ_NORMAL       = 0;
+	const uint8_t EQ_POP          = 1;
+	const uint8_t EQ_ROCK         = 2;
+	const uint8_t EQ_JAZZ         = 3;
+	const uint8_t EQ_CLASSIC      = 4;
+	const uint8_t EQ_BASE         = 5;
 
-//-------------------------------------------------------------------------------------//
-// EQ Values
-//-------------------------------------------------------------------------------------//
-const uint8_t EQ_NORMAL       = 0;
-const uint8_t EQ_POP          = 1;
-const uint8_t EQ_ROCK         = 2;
-const uint8_t EQ_JAZZ         = 3;
-const uint8_t EQ_CLASSIC      = 4;
-const uint8_t EQ_BASE         = 5;
+	//-------------------------------------------------------------------------------------//
+	// Mode Values
+	//-------------------------------------------------------------------------------------//
+	const uint8_t REPEAT          = 0;
+	const uint8_t FOLDER_REPEAT   = 1;
+	const uint8_t SINGLE_REPEAT   = 2;
+	const uint8_t RANDOM          = 3;
 
-//-------------------------------------------------------------------------------------//
-// Mode Values
-//-------------------------------------------------------------------------------------//
-const uint8_t REPEAT          = 0;
-const uint8_t FOLDER_REPEAT   = 1;
-const uint8_t SINGLE_REPEAT   = 2;
-const uint8_t RANDOM          = 3;
+	//-------------------------------------------------------------------------------------//
+	// Playback Source Values
+	//-------------------------------------------------------------------------------------//
+	const uint8_t U               = 1;
+	const uint8_t TF              = 2;
+	const uint8_t AUX             = 3;
+	const uint8_t SLEEP           = 4;
+	const uint8_t FLASH           = 5;
 
-//-------------------------------------------------------------------------------------//
-// Playback Source Values
-//-------------------------------------------------------------------------------------//
-const uint8_t U               = 1;
-const uint8_t TF              = 2;
-const uint8_t AUX             = 3;
-const uint8_t SLEEP           = 4;
-const uint8_t FLASH           = 5;
+	//-------------------------------------------------------------------------------------//
+	// Base Volume Adjust Value
+	//-------------------------------------------------------------------------------------//
+	const uint8_t VOL_ADJUST      = 0x10;
 
-//-------------------------------------------------------------------------------------//
-// Base Volume Adjust Value
-//-------------------------------------------------------------------------------------//
-const uint8_t VOL_ADJUST      = 0x10;
-
-//-------------------------------------------------------------------------------------//
-// Repeat Play Values
-//-------------------------------------------------------------------------------------//
-const uint8_t STOP_REPEAT     = 0;
-const uint8_t START_REPEAT    = 1;
+	//-------------------------------------------------------------------------------------//
+	// Repeat Play Values
+	//-------------------------------------------------------------------------------------//
+	const uint8_t STOP_REPEAT     = 0;
+	const uint8_t START_REPEAT    = 1;
+}
 
 
 
