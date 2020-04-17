@@ -425,7 +425,7 @@ void DFPlayerMini_Fast::wakeUp()
 
 bool DFPlayerMini_Fast::isPlaying()
 {
-	int16_t result = query(dfplayer::GET_STATUS);
+	int16_t result = query(dfplayer::GET_STATUS_);
 
 	if (result != -1)
 		return (result & 1);
