@@ -52,7 +52,7 @@ namespace dfplayer
 	const uint8_t SEND_INIT        = 0x3F;
 	const uint8_t RETRANSMIT       = 0x40;
 	const uint8_t REPLY            = 0x41;
-	const uint8_t GET_STATUS       = 0x42;
+	const uint8_t GET_STATUS_      = 0x42;
 	const uint8_t GET_VOL          = 0x43;
 	const uint8_t GET_EQ           = 0x44;
 	const uint8_t GET_MODE         = 0x45;
