@@ -63,6 +63,18 @@ void DFPlayerMini_Fast::play(uint16_t trackNum)
 }
 
 
+void DFPlayerMini_Fast::stop()
+{
+	sendStack.commandValue = dfplayer::STOP;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
+	sendStack.paramMSB = 0;
+	sendStack.paramLSB = 0;
+
+	findChecksum(&sendStack);
+	sendData();
+}
+
+
 void DFPlayerMini_Fast::playFromMP3Folder(uint16_t trackNum)
 {
 	sendStack.commandValue  = dfplayer::USE_MP3_FOLDER;
