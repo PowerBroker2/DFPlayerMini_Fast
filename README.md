@@ -12,6 +12,7 @@ bool begin(Stream& stream);
 void playNext();
 void playPrevious();
 void play(uint16_t trackNum);
+void stop();
 void playFromMP3Folder(uint16_t trackNum);
 void playAdvertisement(uint16_t trackNum);
 void stopAdvertisement();
