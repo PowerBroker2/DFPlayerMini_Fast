@@ -1,4 +1,5 @@
 # DFPlayer Mini Fast
+[![GitHub version](https://badge.fury.io/gh/PowerBroker2%2FDFPlayerMini_Fast.svg)](https://badge.fury.io/gh/PowerBroker2%2FDFPlayerMini_Fast) [![arduino-library-badge](https://www.ardu-badge.com/badge/DFPlayerMini_Fast.svg?)](https://www.ardu-badge.com/DFPlayerMini_Fast)<br /><br />
 Fast and easy to understand Arduino library to use the DFPlayer Mini MP3 module from DFRobot.com. This is a huge improvement (both in terms of execution speed and simplicity) to the standard library provided by DFRobot.com. 
 
 
