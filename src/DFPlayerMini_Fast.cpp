@@ -1,10 +1,14 @@
 #include "DFPlayerMini_Fast.h"
+#include "FireTimer.h"
 
 
 
 
-bool DFPlayerMini_Fast::begin(Stream &stream)
+bool DFPlayerMini_Fast::begin(Stream &stream, unsigned long threshold)
 {
+	_threshold = threshold;
+	timoutTimer.begin(_threshold);
+
 	_serial = &stream;
 
 	sendStack.start_byte = dfplayer::SB;
@@ -544,6 +548,14 @@ int16_t DFPlayerMini_Fast::numFolders()
 
 
 
+void DFPlayerMini_Fast::setTimeout(unsigned long threshold)
+{
+	_threshold = threshold;
+}
+
+
+
+
 void DFPlayerMini_Fast::findChecksum(stack *_stack)
 {
 	uint16_t checksum = (~(_stack->version + _stack->length + _stack->commandValue + _stack->feedbackValue + _stack->paramMSB + _stack->paramLSB)) + 1;
@@ -604,7 +616,7 @@ int16_t DFPlayerMini_Fast::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
 
 bool DFPlayerMini_Fast::getStatus(uint8_t cmd)
 {
-	timer = millis();
+	timoutTimer.start();
 	bool result = parseFeedback();
 
 	if (!result)
@@ -612,7 +624,7 @@ bool DFPlayerMini_Fast::getStatus(uint8_t cmd)
 
 	while (recStack.commandValue != cmd)
 	{
-		if (timeout())
+		if (timoutTimer.fire())
 			return false;
 
 		result = parseFeedback();
@@ -629,32 +641,95 @@ bool DFPlayerMini_Fast::getStatus(uint8_t cmd)
 
 bool DFPlayerMini_Fast::parseFeedback()
 {
-	while (_serial->available() < dfplayer::STACK_SIZE)
-		if (timeout())
+	while (true)
+	{
+		if (_serial->available())
+		{
+			char recChar = _serial->read();
+
+			switch (state)
+			{
+			case find_start_byte:
+			{
+				if (recChar == dfplayer::SB)
+				{
+					recStack.start_byte = recChar;
+					state = find_ver_byte;
+				}
+				break;
+			}
+			case find_ver_byte:
+			{
+				if (recChar != dfplayer::VER)
+					return false;
+
+				recStack.version = recChar;
+				state = find_len_byte;
+				break;
+			}
+			case find_len_byte:
+			{
+				if (recChar != dfplayer::LEN)
+					return false;
+
+				recStack.length = recChar;
+				state = find_command_byte;
+				break;
+			}
+			case find_command_byte:
+			{
+				recStack.commandValue = recChar;
+				state = find_feedback_byte;
+				break;
+			}
+			case find_feedback_byte:
+			{
+				recStack.feedbackValue = recChar;
+				state = find_param_MSB;
+				break;
+			}
+			case find_param_MSB:
+			{
+				recStack.paramMSB = recChar;
+				state = find_param_LSB;
+				break;
+			}
+			case find_param_LSB:
+			{
+				recStack.paramLSB = recChar;
+				state = find_checksum_MSB;
+				break;
+			}
+			case find_checksum_MSB:
+			{
+				recStack.checksumMSB = recChar;
+				state = find_checksum_LSB;
+				break;
+			}
+			case find_checksum_LSB:
+			{
+				recStack.checksumLSB = recChar;
+				state = find_end_byte;
+				break;
+			}
+			case find_end_byte:
+			{
+				if (recChar != dfplayer::EB)
+					return false;
+
+				recStack.end_byte = recChar;
+				state = find_start_byte;
+				return true;
+				break;
+			}
+			default:
+				break;
+			}
+		}
+
+		if (timoutTimer.fire())
 			return false;
-
-	recStack.start_byte    = _serial->read();
-	recStack.version       = _serial->read();
-	recStack.length        = _serial->read();
-	recStack.commandValue  = _serial->read();
-	recStack.feedbackValue = _serial->read();
-	recStack.paramMSB      = _serial->read();
-	recStack.paramLSB      = _serial->read();
-	recStack.checksumMSB   = _serial->read();
-	recStack.checksumLSB   = _serial->read();
-	recStack.end_byte      = _serial->read();
-
-	return true;
-}
-
-
-
-
-bool DFPlayerMini_Fast::timeout()
-{
-	if ((millis() - timer) >= threshold)
-		return true;
-	return false;
+	}
 }
 
 

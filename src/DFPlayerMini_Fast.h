@@ -1,5 +1,6 @@
 #pragma once
 #include "Arduino.h"
+#include "FireTimer.h"
 
 
 
@@ -127,13 +128,10 @@ public:
 		uint8_t end_byte;
 	} sendStack, recStack;
 
-	unsigned long timer;
-	unsigned long threshold = 500;
 
 
 
-
-	bool begin(Stream& stream);
+	bool begin(Stream& stream, unsigned long threshold=500);
 
 	void playNext();
 	void playPrevious();
@@ -180,13 +178,34 @@ public:
 	int16_t numTracksInFolder(uint8_t folder);
 	int16_t numFolders();
 	
+	void setTimeout(unsigned long threshold);
 	void findChecksum(stack *_stack);
 	void sendData();
 	void flush();
 	int16_t query(uint8_t cmd, uint8_t msb=0, uint8_t lsb=0);
 	bool getStatus(uint8_t cmd);
 	bool parseFeedback();
-	bool timeout();
 
 	void printStack(stack _stack);
+
+
+
+
+private:
+	FireTimer timoutTimer;
+	unsigned long _threshold;
+
+	enum fsm {
+		find_start_byte,
+		find_ver_byte,
+		find_len_byte,
+		find_command_byte,
+		find_feedback_byte,
+		find_param_MSB,
+		find_param_LSB,
+		find_checksum_MSB,
+		find_checksum_LSB,
+		find_end_byte
+	};
+	fsm state = find_start_byte;
 };
