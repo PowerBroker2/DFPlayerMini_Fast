@@ -8,7 +8,7 @@ If you use the playFromMP3Folder() or playAdvertisement() functions, the files t
 
 ## Library API:
 ```c++
-bool begin(Stream& stream);
+bool begin(Stream& stream, unsigned long threshold=500);
 
 void playNext();
 void playPrevious();
@@ -55,13 +55,13 @@ int16_t currentFlashTrack();
 int16_t numTracksInFolder(uint8_t folder);
 int16_t numFolders();
 
+void setTimeout(unsigned long threshold);
 void findChecksum(stack *_stack);
 void sendData();
 void flush();
 int16_t query(uint8_t cmd, uint8_t msb=0, uint8_t lsb=0);
 bool getStatus(uint8_t cmd);
 bool parseFeedback();
-bool timeout();
 
 void printStack(stack _stack);
 ```
