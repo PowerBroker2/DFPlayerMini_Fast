@@ -1,15 +1,23 @@
-#include <SoftwareSerial.h>
 #include <DFPlayerMini_Fast.h>
 
+#ifndef ESP32
+#include <SoftwareSerial.h>
 SoftwareSerial mySerial(10, 11); // RX, TX
+#endif
+
 DFPlayerMini_Fast myMP3;
 
 void setup()
 {
   Serial.begin(115200);
-  mySerial.begin(9600);
 
+#ifndef ESP32
+  mySerial.begin(9600);
   myMP3.begin(mySerial);
+#else
+  Serial.begin(9600);
+  myMP3.begin(Serial1);
+#endif
   
   Serial.println("Setting volume to max");
   myMP3.volume(30);
