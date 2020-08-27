@@ -1,6 +1,6 @@
 #include <DFPlayerMini_Fast.h>
 
-#ifndef ESP32
+#ifdef SoftwareSerial_h
 #include <SoftwareSerial.h>
 SoftwareSerial mySerial(10, 11); // RX, TX
 #endif
@@ -11,7 +11,7 @@ void setup()
 {
   Serial.begin(115200);
 
-#ifndef ESP32
+#ifdef SoftwareSerial_h
   mySerial.begin(9600);
   myMP3.begin(mySerial);
 #else
