@@ -1,25 +1,46 @@
+/*!
+ * @file DFPlayerMini_Fast.h
+ *
+ * This is the documentation for the YX5200-24SS MP3 player driver code for the
+ * Arduino platform.  It is designed specifically to work with the
+ * <a href="https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299">
+ * DFPlayerMini breakout</a>
+ *
+ * These MP3 players use UART to communicate, 2 pins (TX + RX) are required
+ * to interface with the breakout. An external power supply and output amp
+ * improves the MP3 player's functionality. Also, see <a href="https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299">
+ * the wiki</a> for more detailed wiring instructions.
+ *
+ * Written by Power_Broker as a hobby.
+ *
+ * None.
+ *
+ */
+
 #pragma once
 #include "Arduino.h"
 #include "FireTimer.h"
 
 
 
+
+ /**************************************************************************/
+ /*!
+	 @brief  Namespace for constants
+ */
+ /**************************************************************************/
 namespace dfplayer
 {
-	//-------------------------------------------------------------------------------------//
-	// Packet Values
-	//-------------------------------------------------------------------------------------//
-	const uint8_t STACK_SIZE      = 10;   //total number of bytes in a stack/packet (same for cmds and queries)
-	const uint8_t SB              = 0x7E; //start byte
-	const uint8_t VER             = 0xFF; //version
-	const uint8_t LEN             = 0x6;  //number of bytes after "LEN" (except for checksum data and EB)
-	const uint8_t FEEDBACK        = 1;    //feedback requested
-	const uint8_t NO_FEEDBACK     = 0;    //no feedback requested
-	const uint8_t EB              = 0xEF; //end byte
+	/** Packet Values */
+	const uint8_t STACK_SIZE      = 10;   // total number of bytes in a stack/packet (same for cmds and queries)
+	const uint8_t SB              = 0x7E; // start byte
+	const uint8_t VER             = 0xFF; // version
+	const uint8_t LEN             = 0x6;  // number of bytes after "LEN" (except for checksum data and EB)
+	const uint8_t FEEDBACK        = 1;    // feedback requested
+	const uint8_t NO_FEEDBACK     = 0;    // no feedback requested
+	const uint8_t EB              = 0xEF; // end byte
 
-	//-------------------------------------------------------------------------------------//
-	// Control Command Values
-	//-------------------------------------------------------------------------------------//
+	/** Control Command Values */
 	const uint8_t NEXT            = 0x01;
 	const uint8_t PREV            = 0x02;
 	const uint8_t PLAY            = 0x03;
@@ -47,9 +68,7 @@ namespace dfplayer
 	const uint8_t REPEAT_CURRENT  = 0x19;
 	const uint8_t SET_DAC         = 0x1A;
 
-	//-------------------------------------------------------------------------------------//
-	// Query Command Values
-	//-------------------------------------------------------------------------------------//
+	/** Query Command Values */
 	const uint8_t SEND_INIT        = 0x3F;
 	const uint8_t RETRANSMIT       = 0x40;
 	const uint8_t REPLY            = 0x41;
@@ -68,9 +87,7 @@ namespace dfplayer
 	const uint8_t GET_FOLDER_FILES = 0x4E;
 	const uint8_t GET_FOLDERS      = 0x4F;
 
-	//-------------------------------------------------------------------------------------//
-	// EQ Values
-	//-------------------------------------------------------------------------------------//
+	/** EQ Values */
 	const uint8_t EQ_NORMAL       = 0;
 	const uint8_t EQ_POP          = 1;
 	const uint8_t EQ_ROCK         = 2;
@@ -78,31 +95,23 @@ namespace dfplayer
 	const uint8_t EQ_CLASSIC      = 4;
 	const uint8_t EQ_BASE         = 5;
 
-	//-------------------------------------------------------------------------------------//
-	// Mode Values
-	//-------------------------------------------------------------------------------------//
+	/** Mode Values */
 	const uint8_t REPEAT          = 0;
 	const uint8_t FOLDER_REPEAT   = 1;
 	const uint8_t SINGLE_REPEAT   = 2;
 	const uint8_t RANDOM          = 3;
 
-	//-------------------------------------------------------------------------------------//
-	// Playback Source Values
-	//-------------------------------------------------------------------------------------//
+	/** Playback Source Values */
 	const uint8_t U               = 1;
 	const uint8_t TF              = 2;
 	const uint8_t AUX             = 3;
 	const uint8_t SLEEP           = 4;
 	const uint8_t FLASH           = 5;
 
-	//-------------------------------------------------------------------------------------//
-	// Base Volume Adjust Value
-	//-------------------------------------------------------------------------------------//
+	/** Base Volume Adjust Value */
 	const uint8_t VOL_ADJUST      = 0x10;
 
-	//-------------------------------------------------------------------------------------//
-	// Repeat Play Values
-	//-------------------------------------------------------------------------------------//
+	/** Repeat Play Values */
 	const uint8_t STOP_REPEAT     = 0;
 	const uint8_t START_REPEAT    = 1;
 }
@@ -110,11 +119,17 @@ namespace dfplayer
 
 
 
+/**************************************************************************/
+/*!
+	@brief  Class for interacting with DFPlayerMini MP3 player
+*/
+/**************************************************************************/
 class DFPlayerMini_Fast
 {
 public:
 	Stream* _serial;
     
+	/** Struct to store entire serial datapacket used for MP3 config/control */
 	struct stack {
 		uint8_t start_byte;
 		uint8_t version;
@@ -195,6 +210,7 @@ private:
 	FireTimer timoutTimer;
 	unsigned long _threshold;
 
+	/** MP3 response packet parsing states */
 	enum fsm {
 		find_start_byte,
 		find_ver_byte,

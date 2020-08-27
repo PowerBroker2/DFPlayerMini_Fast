@@ -1,9 +1,54 @@
+/*!
+ * @file DFPlayerMini_Fast.cpp
+ *
+ * @mainpage DFPlayerMini_Fast
+ *
+ * @section intro_sec Introduction
+ *
+ * This is the documentation for the YX5200-24SS MP3 player driver code for the
+ * Arduino platform.  It is designed specifically to work with the
+ * <a href="https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299">
+ * DFPlayerMini breakout</a>
+ *
+ * These MP3 players use UART to communicate, 2 pins (TX + RX) are required
+ * to interface with the breakout. An external power supply and output amp
+ * improves the MP3 player's functionality. Also, see <a href="https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299">
+ * the wiki</a> for more detailed wiring instructions.
+ *
+ * @section dependencies Dependencies
+ *
+ * This library depends on <a href="https://github.com/PowerBroker2/FireTimer">
+ * FireTimer.h</a> being present on your system. Please make sure you have
+ * installed the latest version before using this library.
+ *
+ * @section author Author
+ *
+ * Written by Power_Broker as a hobby.
+ *
+ * @section license License
+ *
+ * None.
+ *
+ */
+
 #include "DFPlayerMini_Fast.h"
 #include "FireTimer.h"
 
 
 
 
+ /**************************************************************************/
+ /*!
+	 @brief  Configure the class.
+	 @param    stream
+			   A reference to the Serial instance (hardware or software)
+			   used to communicate with the MP3 player.
+	 @param    threshold
+			   Number of ms allowed for the MP3 player to respond (timeout)
+			   to a query.
+	 @return True.
+ */
+ /**************************************************************************/
 bool DFPlayerMini_Fast::begin(Stream &stream, unsigned long threshold)
 {
 	_threshold = threshold;
@@ -27,6 +72,11 @@ bool DFPlayerMini_Fast::begin(Stream &stream, unsigned long threshold)
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Play the next song in chronological order.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::playNext()
 {
 	sendStack.commandValue  = dfplayer::NEXT;
@@ -41,6 +91,11 @@ void DFPlayerMini_Fast::playNext()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Play the previous song in chronological order.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::playPrevious()
 {
 	sendStack.commandValue  = dfplayer::PREV;
@@ -55,6 +110,13 @@ void DFPlayerMini_Fast::playPrevious()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Play a specific track.
+	 @param    trackNum
+			   The track number to play.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::play(uint16_t trackNum)
 {
 	sendStack.commandValue  = dfplayer::PLAY;
@@ -67,6 +129,13 @@ void DFPlayerMini_Fast::play(uint16_t trackNum)
 }
 
 
+
+
+/**************************************************************************/
+ /*!
+	 @brief  Stop the current playback
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::stop()
 {
 	sendStack.commandValue = dfplayer::STOP;
@@ -79,6 +148,15 @@ void DFPlayerMini_Fast::stop()
 }
 
 
+
+
+/**************************************************************************/
+ /*!
+	 @brief  Play a specific track in the folder named "MP3".
+	 @param    trackNum
+			   The track number to play.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::playFromMP3Folder(uint16_t trackNum)
 {
 	sendStack.commandValue  = dfplayer::USE_MP3_FOLDER;
@@ -91,6 +169,15 @@ void DFPlayerMini_Fast::playFromMP3Folder(uint16_t trackNum)
 }
 
 
+
+
+/**************************************************************************/
+ /*!
+	 @brief  Interrupt the current track with a new track.
+	 @param    trackNum
+			   The track number to play.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::playAdvertisement(uint16_t trackNum)
 {
 	sendStack.commandValue  = dfplayer::INSERT_ADVERT;
@@ -103,6 +190,13 @@ void DFPlayerMini_Fast::playAdvertisement(uint16_t trackNum)
 }
 
 
+
+
+/**************************************************************************/
+ /*!
+	 @brief  Stop the interrupting track.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::stopAdvertisement()
 {
 	sendStack.commandValue  = dfplayer::STOP_ADVERT;
@@ -115,6 +209,13 @@ void DFPlayerMini_Fast::stopAdvertisement()
 }
 
 
+
+
+/**************************************************************************/
+ /*!
+	 @brief  Increment the volume by 1 out of 30.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::incVolume()
 {
 	sendStack.commandValue  = dfplayer::INC_VOL;
@@ -129,6 +230,11 @@ void DFPlayerMini_Fast::incVolume()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Decrement the volume by 1 out of 30.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::decVolume()
 {
 	sendStack.commandValue  = dfplayer::DEC_VOL;
@@ -143,6 +249,13 @@ void DFPlayerMini_Fast::decVolume()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Set the volume to a specific value out of 30.
+	 @param    volume
+			   The volume level (0 - 30).
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::volume(uint8_t volume)
 {
 	if (volume <= 30)
@@ -160,6 +273,13 @@ void DFPlayerMini_Fast::volume(uint8_t volume)
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Set the EQ mode.
+	 @param    setting
+			   The desired EQ ID.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::EQSelect(uint8_t setting)
 {
 	if (setting <= 5)
@@ -177,6 +297,13 @@ void DFPlayerMini_Fast::EQSelect(uint8_t setting)
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Loop a specific track.
+	 @param    trackNum
+			   The track number to play.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::loop(uint16_t trackNum)
 {
   sendStack.commandValue  = dfplayer::PLAYBACK_MODE;
@@ -191,6 +318,13 @@ void DFPlayerMini_Fast::loop(uint16_t trackNum)
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Specify the playback source.
+	 @param    source
+			   The playback source ID.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::playbackSource(uint8_t source)
 {
 	if ((source > 0) && (source <= 5))
@@ -208,6 +342,11 @@ void DFPlayerMini_Fast::playbackSource(uint8_t source)
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Put the MP3 player in standby mode (this is NOT sleep mode).
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::standbyMode()
 {
 	sendStack.commandValue  = dfplayer::STANDBY;
@@ -222,6 +361,11 @@ void DFPlayerMini_Fast::standbyMode()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Pull the MP3 player out of standby mode.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::normalMode()
 {
 	sendStack.commandValue  = dfplayer::NORMAL;
@@ -236,6 +380,11 @@ void DFPlayerMini_Fast::normalMode()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Reset all settings to factory default.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::reset()
 {
 	sendStack.commandValue  = dfplayer::RESET;
@@ -250,6 +399,11 @@ void DFPlayerMini_Fast::reset()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Resume playing current track.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::resume()
 {
 	sendStack.commandValue  = dfplayer::PLAYBACK;
@@ -264,6 +418,11 @@ void DFPlayerMini_Fast::resume()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Pause playing current track.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::pause()
 {
 	sendStack.commandValue  = dfplayer::PAUSE;
@@ -278,6 +437,15 @@ void DFPlayerMini_Fast::pause()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Play a specific track from a specific folder.
+	 @param    folderNum
+			   The folder number.
+	 @param    trackNum
+			   The track number to play.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::playFolder(uint8_t folderNum, uint8_t trackNum)
 {
 	sendStack.commandValue  = dfplayer::SPEC_FOLDER;
@@ -292,6 +460,13 @@ void DFPlayerMini_Fast::playFolder(uint8_t folderNum, uint8_t trackNum)
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Specify volume gain.
+	 @param    gain
+			   The specified volume gain.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::volumeAdjustSet(uint8_t gain)
 {
 	if (gain <= 31)
@@ -309,6 +484,11 @@ void DFPlayerMini_Fast::volumeAdjustSet(uint8_t gain)
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Play all tracks.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::startRepeatPlay()
 {
 	sendStack.commandValue  = dfplayer::REPEAT_PLAY;
@@ -323,6 +503,11 @@ void DFPlayerMini_Fast::startRepeatPlay()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Stop repeat play.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::stopRepeatPlay()
 {
 	sendStack.commandValue  = dfplayer::REPEAT_PLAY;
@@ -337,6 +522,13 @@ void DFPlayerMini_Fast::stopRepeatPlay()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Play all tracks in a given folder.
+	 @param    folderNum
+			   The folder number.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::repeatFolder(uint16_t folder)
 {
 	sendStack.commandValue  = dfplayer::REPEAT_FOLDER;
@@ -351,6 +543,11 @@ void DFPlayerMini_Fast::repeatFolder(uint16_t folder)
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Play all tracks in a random order.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::randomAll()
 {
 	sendStack.commandValue  = dfplayer::RANDOM_ALL;
@@ -365,6 +562,11 @@ void DFPlayerMini_Fast::randomAll()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Repeat the current track.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::startRepeat()
 {
 	sendStack.commandValue  = dfplayer::REPEAT_CURRENT;
@@ -379,6 +581,11 @@ void DFPlayerMini_Fast::startRepeat()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Stop repeat play of the current track.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::stopRepeat()
 {
 	sendStack.commandValue  = dfplayer::REPEAT_CURRENT;
@@ -393,6 +600,11 @@ void DFPlayerMini_Fast::stopRepeat()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Turn on DAC.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::startDAC()
 {
 	sendStack.commandValue  = dfplayer::SET_DAC;
@@ -407,6 +619,11 @@ void DFPlayerMini_Fast::startDAC()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Turn off DAC.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::stopDAC()
 {
 	sendStack.commandValue  = dfplayer::SET_DAC;
@@ -421,6 +638,11 @@ void DFPlayerMini_Fast::stopDAC()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Put the MP3 player into sleep mode.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::sleep()
 {
 	playbackSource(dfplayer::SLEEP);
@@ -429,6 +651,11 @@ void DFPlayerMini_Fast::sleep()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Pull the MP3 player out of sleep mode.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::wakeUp()
 {
 	playbackSource(dfplayer::TF);
@@ -439,6 +666,12 @@ void DFPlayerMini_Fast::wakeUp()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine if a track is currently playing.
+	 @return True if a track is currently playing, false if not, -1 if error.
+ */
+ /**************************************************************************/
 bool DFPlayerMini_Fast::isPlaying()
 {
 	int16_t result = query(dfplayer::GET_STATUS_);
@@ -452,6 +685,12 @@ bool DFPlayerMini_Fast::isPlaying()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine the current volume setting.
+	 @return Volume level (0-30), -1 if error.
+ */
+ /**************************************************************************/
 int16_t DFPlayerMini_Fast::currentVolume()
 {
 	return query(dfplayer::GET_VOL);
@@ -460,6 +699,12 @@ int16_t DFPlayerMini_Fast::currentVolume()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine the current EQ setting.
+	 @return EQ setting, -1 if error.
+ */
+ /**************************************************************************/
 int16_t DFPlayerMini_Fast::currentEQ()
 {
 	return query(dfplayer::GET_EQ);
@@ -468,6 +713,12 @@ int16_t DFPlayerMini_Fast::currentEQ()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine the current mode.
+	 @return Mode, -1 if error.
+ */
+ /**************************************************************************/
 int16_t DFPlayerMini_Fast::currentMode()
 {
 	return query(dfplayer::GET_MODE);
@@ -476,6 +727,12 @@ int16_t DFPlayerMini_Fast::currentMode()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine the current firmware version.
+	 @return Firmware version, -1 if error.
+ */
+ /**************************************************************************/
 int16_t DFPlayerMini_Fast::currentVersion()
 {
 	return query(dfplayer::GET_VERSION);
@@ -484,6 +741,12 @@ int16_t DFPlayerMini_Fast::currentVersion()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine the number of tracks accessible via USB.
+	 @return Number of tracks accessible via USB, -1 if error.
+ */
+ /**************************************************************************/
 int16_t DFPlayerMini_Fast::numUsbTracks()
 {
 	return query(dfplayer::GET_TF_FILES);
@@ -492,6 +755,12 @@ int16_t DFPlayerMini_Fast::numUsbTracks()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine the number of tracks accessible via SD card.
+	 @return Number of tracks accessible via SD card, -1 if error.
+ */
+ /**************************************************************************/
 int16_t DFPlayerMini_Fast::numSdTracks()
 {
 	return query(dfplayer::GET_U_FILES);
@@ -500,6 +769,12 @@ int16_t DFPlayerMini_Fast::numSdTracks()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine the number of tracks accessible via flash.
+	 @return Number of tracks accessible via flash, -1 if error.
+ */
+ /**************************************************************************/
 int16_t DFPlayerMini_Fast::numFlashTracks()
 {
 	return query(dfplayer::GET_FLASH_FILES);
@@ -508,6 +783,12 @@ int16_t DFPlayerMini_Fast::numFlashTracks()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine the current track played via USB.
+	 @return Current track played via USB, -1 if error.
+ */
+ /**************************************************************************/
 int16_t DFPlayerMini_Fast::currentUsbTrack()
 {
 	return query(dfplayer::GET_TF_TRACK);
@@ -516,6 +797,12 @@ int16_t DFPlayerMini_Fast::currentUsbTrack()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine the current track played via SD card.
+	 @return Current track played via SD card, -1 if error.
+ */
+ /**************************************************************************/
 int16_t DFPlayerMini_Fast::currentSdTrack()
 {
 	return query(dfplayer::GET_U_TRACK);
@@ -524,6 +811,12 @@ int16_t DFPlayerMini_Fast::currentSdTrack()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine the current track played via flash.
+	 @return Current track played via flash, -1 if error.
+ */
+ /**************************************************************************/
 int16_t DFPlayerMini_Fast::currentFlashTrack()
 {
 	return query(dfplayer::GET_FLASH_TRACK);
@@ -532,6 +825,14 @@ int16_t DFPlayerMini_Fast::currentFlashTrack()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine the number of tracks in the specified folder.
+	 @param    folder
+			   The folder number.
+	 @return Number of tracks in the specified folder, -1 if error.
+ */
+ /**************************************************************************/
 int16_t DFPlayerMini_Fast::numTracksInFolder(uint8_t folder)
 {
 	return query(dfplayer::GET_FOLDER_FILES, (folder >> 8) & 0xFF, folder & 0xFF);
@@ -540,6 +841,12 @@ int16_t DFPlayerMini_Fast::numTracksInFolder(uint8_t folder)
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine the number of folders available.
+	 @return Number of folders available, -1 if error.
+ */
+ /**************************************************************************/
 int16_t DFPlayerMini_Fast::numFolders()
 {
 	return query(dfplayer::GET_FOLDERS);
@@ -548,6 +855,14 @@ int16_t DFPlayerMini_Fast::numFolders()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Set the timout value for MP3 player query responses.
+	 @param    threshold
+			   Number of ms allowed for the MP3 player to respond (timeout)
+			   to a query.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::setTimeout(unsigned long threshold)
 {
 	_threshold = threshold;
@@ -556,6 +871,15 @@ void DFPlayerMini_Fast::setTimeout(unsigned long threshold)
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Determine and insert the checksum of a given config/command
+	         packet into that same packet struct.
+	 @param    _stack
+			   Pointer to a struct containing the config/command packet
+			   to calculate the checksum over.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::findChecksum(stack *_stack)
 {
 	uint16_t checksum = (~(_stack->version + _stack->length + _stack->commandValue + _stack->feedbackValue + _stack->paramMSB + _stack->paramLSB)) + 1;
@@ -567,6 +891,11 @@ void DFPlayerMini_Fast::findChecksum(stack *_stack)
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Send a config/command packet to the MP3 player.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::sendData()
 {
 	_serial->write(sendStack.start_byte);
@@ -584,6 +913,11 @@ void DFPlayerMini_Fast::sendData()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Clear out the serial input buffer connected to the MP3 player.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::flush()
 {
 	while (_serial->available())
@@ -593,6 +927,18 @@ void DFPlayerMini_Fast::flush()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Query the MP3 player for specific information.
+	 @param    cmd
+			   The command/query ID.
+	 @param    msb
+			   The payload/parameter MSB.
+	 @param    lsb
+			   The payload/parameter LSB.
+	 @return Query response, -1 if error.
+ */
+ /**************************************************************************/
 int16_t DFPlayerMini_Fast::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
 {
 	flush();
@@ -614,6 +960,14 @@ int16_t DFPlayerMini_Fast::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Parse MP3 player query responses - determines if timout occurs.
+	 @param    cmd
+			   The command/query ID.
+	 @return True if success, false if error.
+ */
+ /**************************************************************************/
 bool DFPlayerMini_Fast::getStatus(uint8_t cmd)
 {
 	timoutTimer.start();
@@ -639,6 +993,12 @@ bool DFPlayerMini_Fast::getStatus(uint8_t cmd)
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Parse MP3 player query responses.
+	 @return True if success, false if error.
+ */
+ /**************************************************************************/
 bool DFPlayerMini_Fast::parseFeedback()
 {
 	while (true)
@@ -735,6 +1095,15 @@ bool DFPlayerMini_Fast::parseFeedback()
 
 
 
+/**************************************************************************/
+ /*!
+	 @brief  Print the entire contents of the specified config/command
+	         packet for debugging purposes.
+	 @param    _stack
+			   Struct containing the config/command packet
+			   to print.
+ */
+ /**************************************************************************/
 void DFPlayerMini_Fast::printStack(stack _stack)
 {
 	Serial.println("Stack:");
