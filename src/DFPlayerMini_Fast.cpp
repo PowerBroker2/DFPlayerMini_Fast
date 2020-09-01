@@ -1005,7 +1005,7 @@ bool DFPlayerMini_Fast::parseFeedback()
 	{
 		if (_serial->available())
 		{
-			char recChar = _serial->read();
+			uint8_t recChar = _serial->read();
 
 			switch (state)
 			{
