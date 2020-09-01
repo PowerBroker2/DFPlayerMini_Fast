@@ -114,7 +114,7 @@ namespace dfplayer
 	/** Repeat Play Values */
 	const uint8_t STOP_REPEAT     = 0;
 	const uint8_t START_REPEAT    = 1;
-
+      
 	/** Protocol Mode Values */
 	const uint8_t PROTO_DEFAULT   = 0;
 	const uint8_t PROTO_ALT1      = 1;
