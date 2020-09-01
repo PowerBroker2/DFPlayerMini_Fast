@@ -62,7 +62,7 @@ void findChecksum(stack *_stack);
 void sendData();
 void flush();
 int16_t query(uint8_t cmd, uint8_t msb=0, uint8_t lsb=0);
-bool getStatus(uint8_t cmd);
+bool getStatus();
 bool parseFeedback();
 
 void printStack(stack _stack);
