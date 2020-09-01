@@ -49,8 +49,10 @@
 	 @return True.
  */
  /**************************************************************************/
-bool DFPlayerMini_Fast::begin(Stream &stream, unsigned long threshold)
+bool DFPlayerMini_Fast::begin(Stream &stream, unsigned long threshold, uint8_t protocolMode)
 {
+	this->protocolMode = protocolMode;
+
 	_threshold = threshold;
 	timoutTimer.begin(_threshold);
 
@@ -951,7 +953,7 @@ int16_t DFPlayerMini_Fast::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
 	findChecksum(&sendStack);
 	sendData();
 
-	if (getStatus(cmd))
+	if (getStatus((protocolMode == dfplayer::PROTO_ALT1)?dfplayer::REPLY:cmd))
 		return (recStack.paramMSB << 8) | recStack.paramLSB;
 
 	return -1;

@@ -114,6 +114,10 @@ namespace dfplayer
 	/** Repeat Play Values */
 	const uint8_t STOP_REPEAT     = 0;
 	const uint8_t START_REPEAT    = 1;
+
+	/** Protocol Mode Values */
+	const uint8_t PROTO_DEFAULT   = 0;
+	const uint8_t PROTO_ALT1      = 1;
 }
 
 
@@ -129,6 +133,8 @@ class DFPlayerMini_Fast
 public:
 	Stream* _serial;
     
+	uint8_t protocolMode;
+
 	/** Struct to store entire serial datapacket used for MP3 config/control */
 	struct stack {
 		uint8_t start_byte;
@@ -146,7 +152,7 @@ public:
 
 
 
-	bool begin(Stream& stream, unsigned long threshold=500);
+	bool begin(Stream& stream, unsigned long threshold=500, uint8_t protocolMode = dfplayer::PROTO_DEFAULT);
 
 	void playNext();
 	void playPrevious();
