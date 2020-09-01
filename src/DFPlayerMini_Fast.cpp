@@ -951,7 +951,7 @@ int16_t DFPlayerMini_Fast::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
 	findChecksum(&sendStack);
 	sendData();
 
-	if (getStatus(cmd))
+	if (getStatus())
 		return (recStack.paramMSB << 8) | recStack.paramLSB;
 
 	return -1;
@@ -963,12 +963,10 @@ int16_t DFPlayerMini_Fast::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
 /**************************************************************************/
  /*!
 	 @brief  Parse MP3 player query responses - determines if timout occurs.
-	 @param    cmd
-			   The command/query ID.
 	 @return True if success, false if error.
  */
  /**************************************************************************/
-bool DFPlayerMini_Fast::getStatus(uint8_t cmd)
+bool DFPlayerMini_Fast::getStatus()
 {
 	timoutTimer.start();
 	bool result = parseFeedback();
@@ -976,7 +974,7 @@ bool DFPlayerMini_Fast::getStatus(uint8_t cmd)
 	if (!result)
 		return false;
 
-	while (recStack.commandValue != cmd)
+	while (recStack.commandValue != dfplayer::REPLY)
 	{
 		if (timoutTimer.fire())
 			return false;
