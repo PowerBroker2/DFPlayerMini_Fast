@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['getstatus',['getStatus',['../class_d_f_player_mini___fast.html#a3fd4d8af841f831bea8b74f2662c1879',1,'DFPlayerMini_Fast']]]
+  ['getstatus',['getStatus',['../class_d_f_player_mini___fast.html#ae0287fd8f081234bb59b7fad8784eb30',1,'DFPlayerMini_Fast']]]
 ];
