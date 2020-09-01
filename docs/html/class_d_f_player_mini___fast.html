@@ -252,9 +252,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a13d369a632f2342573be8f654ef72be6"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_f_player_mini___fast.html#a13d369a632f2342573be8f654ef72be6">query</a> (uint8_t cmd, uint8_t msb=0, uint8_t lsb=0)</td></tr>
 <tr class="memdesc:a13d369a632f2342573be8f654ef72be6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query the MP3 player for specific information.  <a href="#a13d369a632f2342573be8f654ef72be6">More...</a><br /></td></tr>
 <tr class="separator:a13d369a632f2342573be8f654ef72be6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fd4d8af841f831bea8b74f2662c1879"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_f_player_mini___fast.html#a3fd4d8af841f831bea8b74f2662c1879">getStatus</a> (uint8_t cmd)</td></tr>
-<tr class="memdesc:a3fd4d8af841f831bea8b74f2662c1879"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse MP3 player query responses - determines if timout occurs.  <a href="#a3fd4d8af841f831bea8b74f2662c1879">More...</a><br /></td></tr>
-<tr class="separator:a3fd4d8af841f831bea8b74f2662c1879"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0287fd8f081234bb59b7fad8784eb30"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_f_player_mini___fast.html#ae0287fd8f081234bb59b7fad8784eb30">getStatus</a> ()</td></tr>
+<tr class="memdesc:ae0287fd8f081234bb59b7fad8784eb30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse MP3 player query responses - determines if timout occurs.  <a href="#ae0287fd8f081234bb59b7fad8784eb30">More...</a><br /></td></tr>
+<tr class="separator:ae0287fd8f081234bb59b7fad8784eb30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a60af3be7cae4e5e344b640f1d869da"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_f_player_mini___fast.html#a0a60af3be7cae4e5e344b640f1d869da">parseFeedback</a> ()</td></tr>
 <tr class="memdesc:a0a60af3be7cae4e5e344b640f1d869da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse MP3 player query responses.  <a href="#a0a60af3be7cae4e5e344b640f1d869da">More...</a><br /></td></tr>
 <tr class="separator:a0a60af3be7cae4e5e344b640f1d869da"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -950,8 +950,8 @@ struct <a class="el" href="struct_d_f_player_mini___fast_1_1stack.html">DFPlayer
 
 </div>
 </div>
-<a id="a3fd4d8af841f831bea8b74f2662c1879"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3fd4d8af841f831bea8b74f2662c1879">&#9670;&nbsp;</a></span>getStatus()</h2>
+<a id="ae0287fd8f081234bb59b7fad8784eb30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0287fd8f081234bb59b7fad8784eb30">&#9670;&nbsp;</a></span>getStatus()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -959,20 +959,13 @@ struct <a class="el" href="struct_d_f_player_mini___fast_1_1stack.html">DFPlayer
         <tr>
           <td class="memname">bool DFPlayerMini_Fast::getStatus </td>
           <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>cmd</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Parse MP3 player query responses - determines if timout occurs. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cmd</td><td>The command/query ID. </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="section return"><dt>Returns</dt><dd>True if success, false if error. </dd></dl>
 
 </div>
