@@ -950,6 +950,7 @@ int16_t DFPlayerMini_Fast::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
 
 	findChecksum(&sendStack);
 	sendData();
+	delay(100); // This delay is oddly required for a successful query response
 
 	if (getStatus())
 		return (recStack.paramMSB << 8) | recStack.paramLSB;
