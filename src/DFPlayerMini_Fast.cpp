@@ -944,7 +944,7 @@ int16_t DFPlayerMini_Fast::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
 	flush();
 
 	sendStack.commandValue  = cmd;
-	sendStack.feedbackValue = dfplayer::FEEDBACK;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = msb;
 	sendStack.paramLSB = lsb;
 
