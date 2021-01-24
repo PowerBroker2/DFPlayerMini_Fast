@@ -10,7 +10,7 @@ If you use the playFromMP3Folder() or playAdvertisement() functions, the files t
 
 ## Library API:
 ```c++
-bool begin(Stream& stream, unsigned long threshold=500);
+bool begin(Stream& stream, bool debug, unsigned long threshold=100);
 
 void playNext();
 void playPrevious();
@@ -62,7 +62,6 @@ void findChecksum(stack *_stack);
 void sendData();
 void flush();
 int16_t query(uint8_t cmd, uint8_t msb=0, uint8_t lsb=0);
-bool getStatus();
 bool parseFeedback();
 
 void printStack(stack _stack);
