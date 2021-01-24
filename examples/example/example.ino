@@ -15,7 +15,7 @@ void setup()
   mySerial.begin(9600);
   myMP3.begin(mySerial);
 #else
-  Serial.begin(9600);
+  Serial1.begin(9600);
   myMP3.begin(Serial1);
 #endif
   
