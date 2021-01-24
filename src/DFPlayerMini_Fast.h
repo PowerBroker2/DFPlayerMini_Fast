@@ -143,10 +143,12 @@ public:
 		uint8_t end_byte;
 	} sendStack, recStack;
 
+	bool _debug;
 
 
 
-	bool begin(Stream& stream, unsigned long threshold=500);
+
+	bool begin(Stream& stream, bool debug=false, unsigned long threshold=100);
 
 	void playNext();
 	void playPrevious();
@@ -198,7 +200,6 @@ public:
 	void sendData();
 	void flush();
 	int16_t query(uint8_t cmd, uint8_t msb=0, uint8_t lsb=0);
-	bool getStatus();
 	bool parseFeedback();
 
 	void printStack(stack _stack);

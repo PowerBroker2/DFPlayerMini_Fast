@@ -43,18 +43,23 @@
 	 @param    stream
 			   A reference to the Serial instance (hardware or software)
 			   used to communicate with the MP3 player.
+	 @param    debug
+			   Boolean used to specify if debug prints should be automatically
+			   printed to the serial monitor.
 	 @param    threshold
 			   Number of ms allowed for the MP3 player to respond (timeout)
 			   to a query.
 	 @return True.
  */
  /**************************************************************************/
-bool DFPlayerMini_Fast::begin(Stream &stream, unsigned long threshold)
+bool DFPlayerMini_Fast::begin(Stream &stream, bool debug, unsigned long threshold)
 {
 	_threshold = threshold;
 	timoutTimer.begin(_threshold);
 
 	_serial = &stream;
+
+	_debug = debug;
 
 	sendStack.start_byte = dfplayer::SB;
 	sendStack.version    = dfplayer::VER;
@@ -679,7 +684,7 @@ bool DFPlayerMini_Fast::isPlaying()
 	if (result != -1)
 		return (result & 1);
 
-	return result;
+	return 0;
 }
 
 
@@ -908,6 +913,13 @@ void DFPlayerMini_Fast::sendData()
 	_serial->write(sendStack.checksumMSB);
 	_serial->write(sendStack.checksumLSB);
 	_serial->write(sendStack.end_byte);
+
+	if (_debug)
+	{
+		Serial.print("Sent ");
+		printStack(sendStack);
+		Serial.println();
+	}
 }
 
 
@@ -951,42 +963,12 @@ int16_t DFPlayerMini_Fast::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
 	findChecksum(&sendStack);
 	sendData();
 	delay(100); // This delay is oddly required for a successful query response
+	timoutTimer.start();
 
-	if (getStatus())
+	if (parseFeedback())
 		return (recStack.paramMSB << 8) | recStack.paramLSB;
 
 	return -1;
-}
-
-
-
-
-/**************************************************************************/
- /*!
-	 @brief  Parse MP3 player query responses - determines if timout occurs.
-	 @return True if success, false if error.
- */
- /**************************************************************************/
-bool DFPlayerMini_Fast::getStatus()
-{
-	timoutTimer.start();
-	bool result = parseFeedback();
-
-	if (!result)
-		return false;
-
-	while (recStack.commandValue != dfplayer::REPLY)
-	{
-		if (timoutTimer.fire())
-			return false;
-
-		result = parseFeedback();
-
-		if (!result)
-			return false;
-	}
-
-	return true;
 }
 
 
@@ -1006,10 +988,20 @@ bool DFPlayerMini_Fast::parseFeedback()
 		{
 			uint8_t recChar = _serial->read();
 
+			if (_debug)
+			{
+				Serial.print("Rec: ");
+				Serial.println(recChar, HEX);
+				Serial.print("State: ");
+			}
+
 			switch (state)
 			{
 			case find_start_byte:
 			{
+				if (_debug)
+					Serial.println("find_start_byte");
+
 				if (recChar == dfplayer::SB)
 				{
 					recStack.start_byte = recChar;
@@ -1019,8 +1011,20 @@ bool DFPlayerMini_Fast::parseFeedback()
 			}
 			case find_ver_byte:
 			{
+				if (_debug)
+					Serial.println("find_ver_byte");
+
 				if (recChar != dfplayer::VER)
+				{
+					if (_debug)
+					{
+						Serial.println("ver error");
+						Serial.println();
+					}
+
+					state = find_start_byte;
 					return false;
+				}
 
 				recStack.version = recChar;
 				state = find_len_byte;
@@ -1028,8 +1032,20 @@ bool DFPlayerMini_Fast::parseFeedback()
 			}
 			case find_len_byte:
 			{
+				if (_debug)
+					Serial.println("find_len_byte");
+
 				if (recChar != dfplayer::LEN)
+				{
+					if (_debug)
+					{
+						Serial.println("len error");
+						Serial.println();
+					}
+
+					state = find_start_byte;
 					return false;
+				}
 
 				recStack.length = recChar;
 				state = find_command_byte;
@@ -1037,44 +1053,77 @@ bool DFPlayerMini_Fast::parseFeedback()
 			}
 			case find_command_byte:
 			{
+				if (_debug)
+					Serial.println("find_command_byte");
+
 				recStack.commandValue = recChar;
 				state = find_feedback_byte;
 				break;
 			}
 			case find_feedback_byte:
 			{
+				if (_debug)
+					Serial.println("find_feedback_byte");
+
 				recStack.feedbackValue = recChar;
 				state = find_param_MSB;
 				break;
 			}
 			case find_param_MSB:
 			{
+				if (_debug)
+					Serial.println("find_param_MSB");
+
 				recStack.paramMSB = recChar;
 				state = find_param_LSB;
 				break;
 			}
 			case find_param_LSB:
 			{
+				if (_debug)
+					Serial.println("find_param_LSB");
+
 				recStack.paramLSB = recChar;
 				state = find_checksum_MSB;
 				break;
 			}
 			case find_checksum_MSB:
 			{
+				if (_debug)
+					Serial.println("find_checksum_MSB");
+
 				recStack.checksumMSB = recChar;
 				state = find_checksum_LSB;
 				break;
 			}
 			case find_checksum_LSB:
 			{
+				if (_debug)
+					Serial.println("find_checksum_LSB");
+
 				recStack.checksumLSB = recChar;
 				state = find_end_byte;
 				break;
 			}
 			case find_end_byte:
 			{
+				if (_debug)
+				{
+					Serial.println("find_end_byte");
+					Serial.println();
+				}
+
 				if (recChar != dfplayer::EB)
+				{
+					if (_debug)
+					{
+						Serial.println("eb error");
+						Serial.println();
+					}
+
+					state = find_start_byte;
 					return false;
+				}
 
 				recStack.end_byte = recChar;
 				state = find_start_byte;
@@ -1087,7 +1136,16 @@ bool DFPlayerMini_Fast::parseFeedback()
 		}
 
 		if (timoutTimer.fire())
+		{
+			if (_debug)
+			{
+				Serial.println("timeout error");
+				Serial.println();
+			}
+
+			state = find_start_byte;
 			return false;
+		}
 	}
 }
 
