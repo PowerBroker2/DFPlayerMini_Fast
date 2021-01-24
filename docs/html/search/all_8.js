@@ -1,10 +1,13 @@
 var searchData=
 [
-  ['next',['NEXT',['../namespacedfplayer.html#a0af32ce87038098a0ad3b494af172adb',1,'dfplayer']]],
-  ['normalmode',['normalMode',['../class_d_f_player_mini___fast.html#a2bcc55f40f212185d3f76e7e78639e93',1,'DFPlayerMini_Fast']]],
-  ['numflashtracks',['numFlashTracks',['../class_d_f_player_mini___fast.html#a4626b58839e67c02c2e25b6802adfc0c',1,'DFPlayerMini_Fast']]],
-  ['numfolders',['numFolders',['../class_d_f_player_mini___fast.html#a4a2c30de08b6b9000cc727f50f2a7e4f',1,'DFPlayerMini_Fast']]],
-  ['numsdtracks',['numSdTracks',['../class_d_f_player_mini___fast.html#a1e31d025a9120c623ea4ea1af850588e',1,'DFPlayerMini_Fast']]],
-  ['numtracksinfolder',['numTracksInFolder',['../class_d_f_player_mini___fast.html#a470c3d5083fd57d8492a30e939a1bc6e',1,'DFPlayerMini_Fast']]],
-  ['numusbtracks',['numUsbTracks',['../class_d_f_player_mini___fast.html#a73ccf6f1fcfb6410bac8723a1fbe8f12',1,'DFPlayerMini_Fast']]]
+  ['parsefeedback',['parseFeedback',['../class_d_f_player_mini___fast.html#a0a60af3be7cae4e5e344b640f1d869da',1,'DFPlayerMini_Fast']]],
+  ['pause',['pause',['../class_d_f_player_mini___fast.html#a41d4200c83b7fc63de8fb12a3d54feea',1,'DFPlayerMini_Fast']]],
+  ['play',['play',['../class_d_f_player_mini___fast.html#a9eade83050c1c310c1bb5ade15b9ba4e',1,'DFPlayerMini_Fast']]],
+  ['playadvertisement',['playAdvertisement',['../class_d_f_player_mini___fast.html#ae5fbe8e7a176f4f4969bed81b725177c',1,'DFPlayerMini_Fast']]],
+  ['playbacksource',['playbackSource',['../class_d_f_player_mini___fast.html#a061771a6e59763e790fff4b06e28e7e7',1,'DFPlayerMini_Fast']]],
+  ['playfolder',['playFolder',['../class_d_f_player_mini___fast.html#a64b4903794abedd3ff9167633b346c05',1,'DFPlayerMini_Fast']]],
+  ['playfrommp3folder',['playFromMP3Folder',['../class_d_f_player_mini___fast.html#a550c702cc3aef849b980cfb91e21f62a',1,'DFPlayerMini_Fast']]],
+  ['playnext',['playNext',['../class_d_f_player_mini___fast.html#af76bf088beef34d48d8ef4bbd1c42db5',1,'DFPlayerMini_Fast']]],
+  ['playprevious',['playPrevious',['../class_d_f_player_mini___fast.html#ab3a383454b3f62700f32de2e17ec5644',1,'DFPlayerMini_Fast']]],
+  ['printstack',['printStack',['../class_d_f_player_mini___fast.html#a6cbd1dd3849277cd8acfb138c518559c',1,'DFPlayerMini_Fast']]]
 ];
