@@ -89,7 +89,7 @@ void DFPlayerMini_Fast::playNext()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -108,7 +108,7 @@ void DFPlayerMini_Fast::playPrevious()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -129,7 +129,7 @@ void DFPlayerMini_Fast::play(uint16_t trackNum)
 	sendStack.paramMSB = (trackNum >> 8) & 0xFF;
 	sendStack.paramLSB = trackNum & 0xFF;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -148,7 +148,7 @@ void DFPlayerMini_Fast::stop()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 0;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -169,7 +169,7 @@ void DFPlayerMini_Fast::playFromMP3Folder(uint16_t trackNum)
 	sendStack.paramMSB = (trackNum >> 8) & 0xFF;
 	sendStack.paramLSB = trackNum & 0xFF;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -190,7 +190,7 @@ void DFPlayerMini_Fast::playAdvertisement(uint16_t trackNum)
 	sendStack.paramMSB = (trackNum >> 8) & 0xFF;
 	sendStack.paramLSB = trackNum & 0xFF;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -209,7 +209,7 @@ void DFPlayerMini_Fast::stopAdvertisement()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 0;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -228,7 +228,7 @@ void DFPlayerMini_Fast::incVolume()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -247,7 +247,7 @@ void DFPlayerMini_Fast::decVolume()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -270,7 +270,7 @@ void DFPlayerMini_Fast::volume(uint8_t volume)
 		sendStack.paramMSB = 0;
 		sendStack.paramLSB = volume;
 
-		findChecksum(&sendStack);
+		findChecksum(sendStack);
 		sendData();
 	}
 }
@@ -294,7 +294,7 @@ void DFPlayerMini_Fast::EQSelect(uint8_t setting)
 		sendStack.paramMSB = 0;
 		sendStack.paramLSB = setting;
 
-		findChecksum(&sendStack);
+		findChecksum(sendStack);
 		sendData();
 	}
 }
@@ -316,7 +316,7 @@ void DFPlayerMini_Fast::loop(uint16_t trackNum)
   sendStack.paramMSB = (trackNum >> 8) & 0xFF;
   sendStack.paramLSB = trackNum & 0xFF;
   
-  findChecksum(&sendStack);
+  findChecksum(sendStack);
   sendData();
 }
 
@@ -339,7 +339,7 @@ void DFPlayerMini_Fast::playbackSource(uint8_t source)
 		sendStack.paramMSB = 0;
 		sendStack.paramLSB = source;
 
-		findChecksum(&sendStack);
+		findChecksum(sendStack);
 		sendData();
 	}
 }
@@ -359,7 +359,7 @@ void DFPlayerMini_Fast::standbyMode()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -378,7 +378,7 @@ void DFPlayerMini_Fast::normalMode()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -397,7 +397,7 @@ void DFPlayerMini_Fast::reset()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -416,7 +416,7 @@ void DFPlayerMini_Fast::resume()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -435,7 +435,7 @@ void DFPlayerMini_Fast::pause()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -458,7 +458,7 @@ void DFPlayerMini_Fast::playFolder(uint8_t folderNum, uint8_t trackNum)
 	sendStack.paramMSB = folderNum;
 	sendStack.paramLSB = trackNum;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -481,7 +481,7 @@ void DFPlayerMini_Fast::volumeAdjustSet(uint8_t gain)
 		sendStack.paramMSB = 0;
 		sendStack.paramLSB = dfplayer::VOL_ADJUST + gain;
 
-		findChecksum(&sendStack);
+		findChecksum(sendStack);
 		sendData();
 	}
 }
@@ -501,7 +501,7 @@ void DFPlayerMini_Fast::startRepeatPlay()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = dfplayer::START_REPEAT;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -520,7 +520,7 @@ void DFPlayerMini_Fast::stopRepeatPlay()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = dfplayer::STOP_REPEAT;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -541,7 +541,7 @@ void DFPlayerMini_Fast::repeatFolder(uint16_t folder)
 	sendStack.paramMSB = (folder >> 8) & 0xFF;
 	sendStack.paramLSB = folder & 0xFF;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -560,7 +560,7 @@ void DFPlayerMini_Fast::randomAll()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 0;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -579,7 +579,7 @@ void DFPlayerMini_Fast::startRepeat()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 0;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -598,7 +598,7 @@ void DFPlayerMini_Fast::stopRepeat()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -617,7 +617,7 @@ void DFPlayerMini_Fast::startDAC()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 0;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -636,7 +636,7 @@ void DFPlayerMini_Fast::stopDAC()
 	sendStack.paramMSB = 0;
 	sendStack.paramLSB = 1;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 }
 
@@ -881,16 +881,16 @@ void DFPlayerMini_Fast::setTimeout(unsigned long threshold)
 	 @brief  Determine and insert the checksum of a given config/command
 	         packet into that same packet struct.
 	 @param    _stack
-			   Pointer to a struct containing the config/command packet
+			   Reference to a struct containing the config/command packet
 			   to calculate the checksum over.
  */
  /**************************************************************************/
-void DFPlayerMini_Fast::findChecksum(stack *_stack)
+void DFPlayerMini_Fast::findChecksum(stack& _stack)
 {
-	uint16_t checksum = (~(_stack->version + _stack->length + _stack->commandValue + _stack->feedbackValue + _stack->paramMSB + _stack->paramLSB)) + 1;
+	uint16_t checksum = (~(_stack.version + _stack.length + _stack.commandValue + _stack.feedbackValue + _stack.paramMSB + _stack.paramLSB)) + 1;
 
-	_stack->checksumMSB = checksum >> 8;
-	_stack->checksumLSB = checksum & 0xFF;
+	_stack.checksumMSB = checksum >> 8;
+	_stack.checksumLSB = checksum & 0xFF;
 }
 
 
@@ -960,13 +960,14 @@ int16_t DFPlayerMini_Fast::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
 	sendStack.paramMSB = msb;
 	sendStack.paramLSB = lsb;
 
-	findChecksum(&sendStack);
+	findChecksum(sendStack);
 	sendData();
 	delay(100); // This delay is oddly required for a successful query response
 	timoutTimer.start();
 
 	if (parseFeedback())
-		return (recStack.paramMSB << 8) | recStack.paramLSB;
+		if (recStack.commandValue != 0x40)
+			return (recStack.paramMSB << 8) | recStack.paramLSB;
 
 	return -1;
 }
@@ -1174,4 +1175,75 @@ void DFPlayerMini_Fast::printStack(stack _stack)
 	Serial.print(_stack.checksumMSB, HEX);   Serial.print(' ');
 	Serial.print(_stack.checksumLSB, HEX);   Serial.print(' ');
 	Serial.println(_stack.end_byte, HEX);
+}
+
+
+
+
+/**************************************************************************/
+ /*!
+	 @brief  Print the error description if an error has been received
+ */
+ /**************************************************************************/
+void DFPlayerMini_Fast::printError()
+{
+	if (recStack.commandValue == 0x40)
+	{
+		switch (recStack.paramLSB)
+		{
+		case 0x1:
+		{
+			Serial.println("Module busy (this info is returned when the initialization is not done)");
+			break;
+		}
+		case 0x2:
+		{
+			Serial.println("Currently sleep mode(supports only specified device in sleep mode)");
+			break;
+		}
+		case 0x3:
+		{
+			Serial.println("Serial receiving error(a frame has not been received completely yet)");
+			break;
+		}
+		case 0x4:
+		{
+			Serial.println("Checksum incorrect");
+			break;
+		}
+		case 0x5:
+		{
+			Serial.println("Specified track is out of current track scope");
+			break;
+		}
+		case 0x6:
+		{
+			Serial.println("Specified track is not found");
+			break;
+		}
+		case 0x7:
+		{
+			Serial.println("Insertion error(an inserting operation only can be done when a track is being played)");
+			break;
+		}
+		case 0x8:
+		{
+			Serial.println("SD card reading failed(SD card pulled out or damaged)");
+			break;
+		}
+		case 0xA:
+		{
+			Serial.println("Entered into sleep mode");
+			break;
+		}
+		default:
+		{
+			Serial.print("Unknown error: ");
+			Serial.println(recStack.paramLSB);
+			break;
+		}
+		}
+	}
+	else
+		Serial.println("No error");
 }
