@@ -9,5 +9,6 @@ var searchData=
   ['playfrommp3folder',['playFromMP3Folder',['../class_d_f_player_mini___fast.html#a550c702cc3aef849b980cfb91e21f62a',1,'DFPlayerMini_Fast']]],
   ['playnext',['playNext',['../class_d_f_player_mini___fast.html#af76bf088beef34d48d8ef4bbd1c42db5',1,'DFPlayerMini_Fast']]],
   ['playprevious',['playPrevious',['../class_d_f_player_mini___fast.html#ab3a383454b3f62700f32de2e17ec5644',1,'DFPlayerMini_Fast']]],
+  ['printerror',['printError',['../class_d_f_player_mini___fast.html#addc2d3ad281f96c4bfd7121b292bb01f',1,'DFPlayerMini_Fast']]],
   ['printstack',['printStack',['../class_d_f_player_mini___fast.html#a6cbd1dd3849277cd8acfb138c518559c',1,'DFPlayerMini_Fast']]]
 ];
