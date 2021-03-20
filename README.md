@@ -8,7 +8,7 @@ Fast and easy to understand Arduino library to use the DFPlayer Mini MP3 module 
 ## Important Notes
 If you use the playFromMP3Folder() or playAdvertisement() functions, the files to be played must be organised in an extremely precise manner. The "MP3 Folder" must be in the root of the storage device (such as a MicroSD card) and it must be called "mp3". The folder name is probably not case-sensitive. Likewise, the "Advertisement" folder used for short interruptions to main audio playback must also be in the root of the storage device, and it must be called "advert". In addition, audio filenames must be prepended by a zero-padded 4-digit number if the files are in the root or "mp3" folders. If the files are played from folders other than root or "mp3", the folder names must be zero-padded 2-digit numbers while their contents must be audio files with names prepended by a zero-padded 3-digit number.
 
-If you are using multiple DFPlayers, it is necessary to make your SoftwareSerial instance listen (i.e. SoftwareSerial.listen()) before calling queries such as .isPlaying() or .currentVolume().
+If you are using multiple DFPlayers with SoftwareSerial, it is necessary to make your SoftwareSerial instance listen (i.e. SoftwareSerial.listen()) before calling queries such as .isPlaying() or .currentVolume().
 
 ## Library API:
 ```c++
