@@ -664,8 +664,6 @@ void DFPlayerMini_Fast::sleep()
 void DFPlayerMini_Fast::wakeUp()
 {
 	playbackSource(dfplayer::TF);
-
-	delay(100);
 }
 
 
@@ -962,7 +960,6 @@ int16_t DFPlayerMini_Fast::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
 
 	findChecksum(sendStack);
 	sendData();
-	delay(100); // This delay is oddly required for a successful query response
 	timoutTimer.start();
 
 	if (parseFeedback())
