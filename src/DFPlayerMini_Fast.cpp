@@ -87,7 +87,7 @@ void DFPlayerMini_Fast::playNext()
 	sendStack.commandValue  = dfplayer::NEXT;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 1;
+	sendStack.paramLSB = 0;
 
 	findChecksum(sendStack);
 	sendData();
@@ -106,7 +106,7 @@ void DFPlayerMini_Fast::playPrevious()
 	sendStack.commandValue  = dfplayer::PREV;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 1;
+	sendStack.paramLSB = 0;
 
 	findChecksum(sendStack);
 	sendData();
@@ -226,7 +226,7 @@ void DFPlayerMini_Fast::incVolume()
 	sendStack.commandValue  = dfplayer::INC_VOL;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 1;
+	sendStack.paramLSB = 0;
 
 	findChecksum(sendStack);
 	sendData();
@@ -245,7 +245,7 @@ void DFPlayerMini_Fast::decVolume()
 	sendStack.commandValue  = dfplayer::DEC_VOL;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 1;
+	sendStack.paramLSB = 0;
 
 	findChecksum(sendStack);
 	sendData();
@@ -357,7 +357,7 @@ void DFPlayerMini_Fast::standbyMode()
 	sendStack.commandValue  = dfplayer::STANDBY;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 1;
+	sendStack.paramLSB = 0;
 
 	findChecksum(sendStack);
 	sendData();
@@ -376,7 +376,7 @@ void DFPlayerMini_Fast::normalMode()
 	sendStack.commandValue  = dfplayer::NORMAL;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 1;
+	sendStack.paramLSB = 0;
 
 	findChecksum(sendStack);
 	sendData();
@@ -395,7 +395,7 @@ void DFPlayerMini_Fast::reset()
 	sendStack.commandValue  = dfplayer::RESET;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 1;
+	sendStack.paramLSB = 0;
 
 	findChecksum(sendStack);
 	sendData();
@@ -414,7 +414,7 @@ void DFPlayerMini_Fast::resume()
 	sendStack.commandValue  = dfplayer::PLAYBACK;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 1;
+	sendStack.paramLSB = 0;
 
 	findChecksum(sendStack);
 	sendData();
@@ -433,7 +433,7 @@ void DFPlayerMini_Fast::pause()
 	sendStack.commandValue  = dfplayer::PAUSE;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 1;
+	sendStack.paramLSB = 0;
 
 	findChecksum(sendStack);
 	sendData();
@@ -596,7 +596,7 @@ void DFPlayerMini_Fast::stopRepeat()
 	sendStack.commandValue  = dfplayer::REPEAT_CURRENT;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 1;
+	sendStack.paramLSB = 0;
 
 	findChecksum(sendStack);
 	sendData();
@@ -634,7 +634,7 @@ void DFPlayerMini_Fast::stopDAC()
 	sendStack.commandValue  = dfplayer::SET_DAC;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 1;
+	sendStack.paramLSB = 0;
 
 	findChecksum(sendStack);
 	sendData();
@@ -885,10 +885,10 @@ void DFPlayerMini_Fast::setTimeout(unsigned long threshold)
  /**************************************************************************/
 void DFPlayerMini_Fast::findChecksum(stack& _stack)
 {
-	uint16_t checksum = (~(_stack.version + _stack.length + _stack.commandValue + _stack.feedbackValue + _stack.paramMSB + _stack.paramLSB)) + 1;
+	int16_t checksum = 0 - (_stack.version + _stack.length + _stack.commandValue + _stack.feedbackValue + _stack.paramMSB + _stack.paramLSB);
 
 	_stack.checksumMSB = checksum >> 8;
-	_stack.checksumLSB = checksum & 0xFF;
+	_stack.checksumLSB = checksum & 0x00FF;
 }
 
 
@@ -1015,10 +1015,7 @@ bool DFPlayerMini_Fast::parseFeedback()
 				if (recChar != dfplayer::VER)
 				{
 					if (_debug)
-					{
 						Serial.println("ver error");
-						Serial.println();
-					}
 
 					state = find_start_byte;
 					return false;
@@ -1036,10 +1033,7 @@ bool DFPlayerMini_Fast::parseFeedback()
 				if (recChar != dfplayer::LEN)
 				{
 					if (_debug)
-					{
 						Serial.println("len error");
-						Serial.println();
-					}
 
 					state = find_start_byte;
 					return false;
@@ -1100,24 +1094,39 @@ bool DFPlayerMini_Fast::parseFeedback()
 					Serial.println("find_checksum_LSB");
 
 				recStack.checksumLSB = recChar;
-				state = find_end_byte;
+
+				int recChecksum  = (recStack.checksumMSB << 8) | recStack.checksumLSB;
+				findChecksum(recStack);
+				int calcChecksum = (recStack.checksumMSB << 8) | recStack.checksumLSB;
+
+				if (recChecksum != calcChecksum)
+				{
+					if (_debug)
+					{
+						Serial.println("checksum error");
+						Serial.print("recChecksum: 0x");
+						Serial.println(recChecksum, HEX);
+						Serial.print("calcChecksum: 0x");
+						Serial.println(calcChecksum, HEX);
+						Serial.println();
+					}
+
+					state = find_start_byte;
+					return false;
+				}
+				else
+					state = find_end_byte;
 				break;
 			}
 			case find_end_byte:
 			{
 				if (_debug)
-				{
 					Serial.println("find_end_byte");
-					Serial.println();
-				}
 
 				if (recChar != dfplayer::EB)
 				{
 					if (_debug)
-					{
 						Serial.println("eb error");
-						Serial.println();
-					}
 
 					state = find_start_byte;
 					return false;
@@ -1136,10 +1145,7 @@ bool DFPlayerMini_Fast::parseFeedback()
 		if (timoutTimer.fire())
 		{
 			if (_debug)
-			{
 				Serial.println("timeout error");
-				Serial.println();
-			}
 
 			state = find_start_byte;
 			return false;
