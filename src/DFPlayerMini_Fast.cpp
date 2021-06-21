@@ -462,8 +462,30 @@ void DFPlayerMini_Fast::playFolder(uint8_t folderNum, uint8_t trackNum)
 	sendData();
 }
 
+/**************************************************************************/
+ /*!
+	 @brief  Play a specific track from a specific folder, where the track
+			 names are numbered 4 digit (e.g. 1234-mysong.mp3) and can be 
+			 up to 3000. Only 15 folders ("01" to "15") are supported in this
+			 mode. 
+	 @param    folderNum
+			   The folder number.
+	 @param    trackNum
+			   The track number to play.
+ */
+ /**************************************************************************/
+void DFPlayerMini_Fast::playLargeFolder(uint8_t folderNum, uint16_t trackNum)
+{
+	const uint16_t arg = (((uint16_t)folderNum) << 12) | (trackNum & 0xfff);
 
+	sendStack.commandValue	= dfplayer::SPEC_TRACK_3000;
+	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
+	sendStack.paramMSB = arg >> 8;
+	sendStack.paramLSB = arg & 0xff;
 
+	findChecksum(sendStack);
+	sendData();
+}
 
 /**************************************************************************/
  /*!
