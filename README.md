@@ -33,6 +33,7 @@ void reset();
 void resume();
 void pause();
 void playFolder(uint8_t folderNum, uint8_t trackNum);
+void playLargeFolder(uint8_t folderNum, uint16_t trackNum);
 void volumeAdjustSet(uint8_t gain);
 void startRepeatPlay();
 void stopRepeatPlay();
