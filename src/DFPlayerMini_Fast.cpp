@@ -87,7 +87,7 @@ void DFPlayerMini_Fast::playNext()
 	sendStack.commandValue  = dfplayer::NEXT;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 0;
+	sendStack.paramLSB = 1;
 
 	findChecksum(sendStack);
 	sendData();
@@ -106,7 +106,7 @@ void DFPlayerMini_Fast::playPrevious()
 	sendStack.commandValue  = dfplayer::PREV;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 0;
+	sendStack.paramLSB = 1;
 
 	findChecksum(sendStack);
 	sendData();
@@ -226,7 +226,7 @@ void DFPlayerMini_Fast::incVolume()
 	sendStack.commandValue  = dfplayer::INC_VOL;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 0;
+	sendStack.paramLSB = 1;
 
 	findChecksum(sendStack);
 	sendData();
@@ -245,7 +245,7 @@ void DFPlayerMini_Fast::decVolume()
 	sendStack.commandValue  = dfplayer::DEC_VOL;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 0;
+	sendStack.paramLSB = 1;
 
 	findChecksum(sendStack);
 	sendData();
@@ -357,7 +357,7 @@ void DFPlayerMini_Fast::standbyMode()
 	sendStack.commandValue  = dfplayer::STANDBY;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 0;
+	sendStack.paramLSB = 1;
 
 	findChecksum(sendStack);
 	sendData();
@@ -376,7 +376,7 @@ void DFPlayerMini_Fast::normalMode()
 	sendStack.commandValue  = dfplayer::NORMAL;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 0;
+	sendStack.paramLSB = 1;
 
 	findChecksum(sendStack);
 	sendData();
@@ -395,7 +395,7 @@ void DFPlayerMini_Fast::reset()
 	sendStack.commandValue  = dfplayer::RESET;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 0;
+	sendStack.paramLSB = 1;
 
 	findChecksum(sendStack);
 	sendData();
@@ -414,7 +414,7 @@ void DFPlayerMini_Fast::resume()
 	sendStack.commandValue  = dfplayer::PLAYBACK;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 0;
+	sendStack.paramLSB = 1;
 
 	findChecksum(sendStack);
 	sendData();
@@ -433,7 +433,7 @@ void DFPlayerMini_Fast::pause()
 	sendStack.commandValue  = dfplayer::PAUSE;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 0;
+	sendStack.paramLSB = 1;
 
 	findChecksum(sendStack);
 	sendData();
@@ -618,7 +618,7 @@ void DFPlayerMini_Fast::stopRepeat()
 	sendStack.commandValue  = dfplayer::REPEAT_CURRENT;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 0;
+	sendStack.paramLSB = 1;
 
 	findChecksum(sendStack);
 	sendData();
@@ -656,7 +656,7 @@ void DFPlayerMini_Fast::stopDAC()
 	sendStack.commandValue  = dfplayer::SET_DAC;
 	sendStack.feedbackValue = dfplayer::NO_FEEDBACK;
 	sendStack.paramMSB = 0;
-	sendStack.paramLSB = 0;
+	sendStack.paramLSB = 1;
 
 	findChecksum(sendStack);
 	sendData();
@@ -907,10 +907,10 @@ void DFPlayerMini_Fast::setTimeout(unsigned long threshold)
  /**************************************************************************/
 void DFPlayerMini_Fast::findChecksum(stack& _stack)
 {
-	int16_t checksum = 0 - (_stack.version + _stack.length + _stack.commandValue + _stack.feedbackValue + _stack.paramMSB + _stack.paramLSB);
+	uint16_t checksum = (~(_stack.version + _stack.length + _stack.commandValue + _stack.feedbackValue + _stack.paramMSB + _stack.paramLSB)) + 1;
 
 	_stack.checksumMSB = checksum >> 8;
-	_stack.checksumLSB = checksum & 0x00FF;
+	_stack.checksumLSB = checksum & 0xFF;
 }
 
 
@@ -936,7 +936,7 @@ void DFPlayerMini_Fast::sendData()
 
 	if (_debug)
 	{
-		Serial.print("Sent ");
+		Serial.print(F("Sent "));
 		printStack(sendStack);
 		Serial.println();
 	}
@@ -1010,9 +1010,9 @@ bool DFPlayerMini_Fast::parseFeedback()
 
 			if (_debug)
 			{
-				Serial.print("Rec: ");
+				Serial.print(F("Rec: "));
 				Serial.println(recChar, HEX);
-				Serial.print("State: ");
+				Serial.print(F("State: "));
 			}
 
 			switch (state)
@@ -1020,7 +1020,7 @@ bool DFPlayerMini_Fast::parseFeedback()
 			case find_start_byte:
 			{
 				if (_debug)
-					Serial.println("find_start_byte");
+					Serial.println(F("find_start_byte"));
 
 				if (recChar == dfplayer::SB)
 				{
@@ -1032,12 +1032,12 @@ bool DFPlayerMini_Fast::parseFeedback()
 			case find_ver_byte:
 			{
 				if (_debug)
-					Serial.println("find_ver_byte");
+					Serial.println(F("find_ver_byte"));
 
 				if (recChar != dfplayer::VER)
 				{
 					if (_debug)
-						Serial.println("ver error");
+						Serial.println(F("ver error"));
 
 					state = find_start_byte;
 					return false;
@@ -1050,12 +1050,12 @@ bool DFPlayerMini_Fast::parseFeedback()
 			case find_len_byte:
 			{
 				if (_debug)
-					Serial.println("find_len_byte");
+					Serial.println(F("find_len_byte"));
 
 				if (recChar != dfplayer::LEN)
 				{
 					if (_debug)
-						Serial.println("len error");
+						Serial.println(F("len error"));
 
 					state = find_start_byte;
 					return false;
@@ -1068,7 +1068,7 @@ bool DFPlayerMini_Fast::parseFeedback()
 			case find_command_byte:
 			{
 				if (_debug)
-					Serial.println("find_command_byte");
+					Serial.println(F("find_command_byte"));
 
 				recStack.commandValue = recChar;
 				state = find_feedback_byte;
@@ -1077,7 +1077,7 @@ bool DFPlayerMini_Fast::parseFeedback()
 			case find_feedback_byte:
 			{
 				if (_debug)
-					Serial.println("find_feedback_byte");
+					Serial.println(F("find_feedback_byte"));
 
 				recStack.feedbackValue = recChar;
 				state = find_param_MSB;
@@ -1086,7 +1086,7 @@ bool DFPlayerMini_Fast::parseFeedback()
 			case find_param_MSB:
 			{
 				if (_debug)
-					Serial.println("find_param_MSB");
+					Serial.println(F("find_param_MSB"));
 
 				recStack.paramMSB = recChar;
 				state = find_param_LSB;
@@ -1095,7 +1095,7 @@ bool DFPlayerMini_Fast::parseFeedback()
 			case find_param_LSB:
 			{
 				if (_debug)
-					Serial.println("find_param_LSB");
+					Serial.println(F("find_param_LSB"));
 
 				recStack.paramLSB = recChar;
 				state = find_checksum_MSB;
@@ -1104,7 +1104,7 @@ bool DFPlayerMini_Fast::parseFeedback()
 			case find_checksum_MSB:
 			{
 				if (_debug)
-					Serial.println("find_checksum_MSB");
+					Serial.println(F("find_checksum_MSB"));
 
 				recStack.checksumMSB = recChar;
 				state = find_checksum_LSB;
@@ -1113,7 +1113,7 @@ bool DFPlayerMini_Fast::parseFeedback()
 			case find_checksum_LSB:
 			{
 				if (_debug)
-					Serial.println("find_checksum_LSB");
+					Serial.println(F("find_checksum_LSB"));
 
 				recStack.checksumLSB = recChar;
 
@@ -1125,10 +1125,10 @@ bool DFPlayerMini_Fast::parseFeedback()
 				{
 					if (_debug)
 					{
-						Serial.println("checksum error");
-						Serial.print("recChecksum: 0x");
+						Serial.println(F("checksum error"));
+						Serial.print(F("recChecksum: 0x"));
 						Serial.println(recChecksum, HEX);
-						Serial.print("calcChecksum: 0x");
+						Serial.print(F("calcChecksum: 0x"));
 						Serial.println(calcChecksum, HEX);
 						Serial.println();
 					}
@@ -1143,12 +1143,12 @@ bool DFPlayerMini_Fast::parseFeedback()
 			case find_end_byte:
 			{
 				if (_debug)
-					Serial.println("find_end_byte");
+					Serial.println(F("find_end_byte"));
 
 				if (recChar != dfplayer::EB)
 				{
 					if (_debug)
-						Serial.println("eb error");
+						Serial.println(F("eb error"));
 
 					state = find_start_byte;
 					return false;
@@ -1167,7 +1167,7 @@ bool DFPlayerMini_Fast::parseFeedback()
 		if (timoutTimer.fire())
 		{
 			if (_debug)
-				Serial.println("timeout error");
+				Serial.println(F("timeout error"));
 
 			state = find_start_byte;
 			return false;
@@ -1189,7 +1189,7 @@ bool DFPlayerMini_Fast::parseFeedback()
  /**************************************************************************/
 void DFPlayerMini_Fast::printStack(stack _stack)
 {
-	Serial.println("Stack:");
+	Serial.println(F("Stack:"));
 	Serial.print(_stack.start_byte, HEX);    Serial.print(' ');
 	Serial.print(_stack.version, HEX);       Serial.print(' ');
 	Serial.print(_stack.length, HEX);        Serial.print(' ');
@@ -1218,57 +1218,57 @@ void DFPlayerMini_Fast::printError()
 		{
 		case 0x1:
 		{
-			Serial.println("Module busy (this info is returned when the initialization is not done)");
+			Serial.println(F("Module busy (this info is returned when the initialization is not done)"));
 			break;
 		}
 		case 0x2:
 		{
-			Serial.println("Currently sleep mode(supports only specified device in sleep mode)");
+			Serial.println(F("Currently sleep mode(supports only specified device in sleep mode)"));
 			break;
 		}
 		case 0x3:
 		{
-			Serial.println("Serial receiving error(a frame has not been received completely yet)");
+			Serial.println(F("Serial receiving error(a frame has not been received completely yet)"));
 			break;
 		}
 		case 0x4:
 		{
-			Serial.println("Checksum incorrect");
+			Serial.println(F("Checksum incorrect"));
 			break;
 		}
 		case 0x5:
 		{
-			Serial.println("Specified track is out of current track scope");
+			Serial.println(F("Specified track is out of current track scope"));
 			break;
 		}
 		case 0x6:
 		{
-			Serial.println("Specified track is not found");
+			Serial.println(F("Specified track is not found"));
 			break;
 		}
 		case 0x7:
 		{
-			Serial.println("Insertion error(an inserting operation only can be done when a track is being played)");
+			Serial.println(F("Insertion error(an inserting operation only can be done when a track is being played)"));
 			break;
 		}
 		case 0x8:
 		{
-			Serial.println("SD card reading failed(SD card pulled out or damaged)");
+			Serial.println(F("SD card reading failed(SD card pulled out or damaged)"));
 			break;
 		}
 		case 0xA:
 		{
-			Serial.println("Entered into sleep mode");
+			Serial.println(F("Entered into sleep mode"));
 			break;
 		}
 		default:
 		{
-			Serial.print("Unknown error: ");
+			Serial.print(F("Unknown error: "));
 			Serial.println(recStack.paramLSB);
 			break;
 		}
 		}
 	}
 	else
-		Serial.println("No error");
+		Serial.println(F("No error"));
 }
