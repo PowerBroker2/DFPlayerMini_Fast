@@ -19,6 +19,8 @@ void setup()
   myMP3.begin(Serial1, true);
 #endif
   
+  delay(1000);
+  
   Serial.println("Setting volume to max");
   myMP3.volume(30);
   
