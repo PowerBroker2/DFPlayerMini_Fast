@@ -891,6 +891,7 @@ int16_t DFPlayerMini_Fast::numFolders()
 void DFPlayerMini_Fast::setTimeout(unsigned long threshold)
 {
 	_threshold = threshold;
+	timoutTimer.begin(_threshold);
 }
 
 
